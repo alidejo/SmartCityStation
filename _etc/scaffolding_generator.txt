@@ -1,0 +1,6 @@
+php artisan infyom:api_scaffold Type_variable  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/type_variable.json
+php artisan infyom:api_scaffold Data_variable  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/data_variable.json
+
+
+php artisan infyom:rollback Type_variable api_scaffold
+php artisan infyom:rollback Data_variable api_scaffold
