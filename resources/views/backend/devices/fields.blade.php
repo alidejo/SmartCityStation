@@ -4,8 +4,8 @@
     {!! Form::text('device_code', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- State Field -->
+<!-- State with toggle switch Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('state', 'State:') !!}
-    {!! Form::number('state', null, ['class' => 'form-control']) !!}
+    {!! Form::checkbox('state', 'active', true,['class' => 'form-control switch-button']) !!}
 </div>

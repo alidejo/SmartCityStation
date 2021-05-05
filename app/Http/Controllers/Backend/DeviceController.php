@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\DTO\Device;
 
 class DeviceController extends AppBaseController
 {
@@ -54,11 +55,29 @@ class DeviceController extends AppBaseController
      */
     public function store(CreateDeviceRequest $request)
     {
-        $input = $request->all();
 
-        $device = $this->deviceRepository->create($input);
+        $state = 0;
+        if($request->state == "active"){
+            $state = 1;
+        } else {
+            $state= 2;            
+        }
 
-        Flash::success('Device saved successfully.');
+        $input = [
+            'device_code' => $request->device_code,
+            'state' => $state,
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        // $input = $request->all();
+
+        try {
+            $device = $this->deviceRepository->create($input);
+            Flash::success('Device saved successfully.');
+        } catch (\Throwable $th) {
+            // throw $th;
+            Flash::success('The Device Code already exists.');
+        }
 
         return redirect(route('backend.devices.index'));
     }
@@ -121,9 +140,37 @@ class DeviceController extends AppBaseController
             return redirect(route('backend.devices.index'));
         }
 
-        $device = $this->deviceRepository->update($request->all(), $id);
+        $state = 0;
+        if($request->state == "active"){
+            $state = 1;
+        } else {
+            $state= 2;            
+        }
 
-        Flash::success('Device updated successfully.');
+        $input = [
+            'device_code' => $request->device_code,
+            'state' => $state,
+            'created_at' =>  $request->created_at,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        // $odjdevice = new Device($input['device_code'], $input['state'], $input['created_at'], $input['updated_at']);
+
+        try {
+            $device->device_code = $input['device_code'];
+            $device->state = $input['state'];
+            $device->created_at = $input['created_at'];
+            $device->created_at = $input['updated_at'];        
+
+            $device->save();
+
+            // $device = $this->deviceRepository->update($request->all(), $id);
+
+            Flash::success('Device updated successfully.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Flash::success('The Device Code already exists.');
+        }
 
         return redirect(route('backend.devices.index'));
     }

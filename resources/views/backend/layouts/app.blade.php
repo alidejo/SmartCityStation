@@ -13,6 +13,8 @@
     <link href="{{ mix('css/backend.css') }}" rel="stylesheet">
     <livewire:styles />
     @stack('after-styles')
+
+    <link href="css/togglebutton.css" id="toggle-button-style" rel="stylesheet" type="text/css" />
 </head>
 <body class="c-app">
     @include('backend.includes.sidebar')

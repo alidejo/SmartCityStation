@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th>Device Code</th>
-        <th>State</th>
+                <th>State</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
@@ -11,7 +11,11 @@
         @foreach($devices as $device)
             <tr>
                 <td>{{ $device->device_code }}</td>
-            <td>{{ $device->state }}</td>
+                @if($device->state == 1)
+                    <td>Active</td>
+                @else
+                    <td>Not Active</td>
+                @endif
                 <td width="120">
                     {!! Form::open(['route' => ['backend.devices.destroy', $device->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

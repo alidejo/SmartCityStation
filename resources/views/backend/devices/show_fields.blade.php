@@ -7,7 +7,11 @@
 <!-- State Field -->
 <div class="col-sm-12">
     {!! Form::label('state', 'State:') !!}
-    <p>{{ $device->state }}</p>
+    @if($device->state == 1)
+        <p>Active</p>
+    @else
+    <p>Not Active</p>
+    @endif
 </div>
 
 <!-- Created At Field -->

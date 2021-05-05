@@ -21,7 +21,23 @@
 
             <div class="card-body">
                 <div class="row">
-                    @include('backend.devices.fields')
+
+                    <!-- Device Code Field -->
+                    <div class="form-group col-sm-6">
+                        {!! Form::label('device_code', 'Device Code:') !!}
+                        {!! Form::text('device_code', null, ['class' => 'form-control']) !!}
+                    </div>
+
+                    <!-- State with toggle switch Field -->
+                    <div class="form-group col-sm-6">
+                        {!! Form::label('state', 'State:') !!}
+                        @if($device->state == 1)
+                            {!! Form::checkbox('state', 'active', true,['class' => 'form-control switch-button']) !!}
+                        @else
+                            {!! Form::checkbox('state', 'active', false,['class' => 'form-control switch-button']) !!}
+                        @endif
+                    </div>
+
                 </div>
             </div>
 

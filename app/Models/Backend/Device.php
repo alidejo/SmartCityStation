@@ -39,7 +39,8 @@ class Device extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'device_code' => 'string'
+        'device_code' => 'string',
+        // 'state' => 'tinyInteger' 
         // 'state' => 'integer' 
     ];
 
@@ -52,7 +53,7 @@ class Device extends Model
         'device_code' => 'required',
         // 'device_code' => 'unique',
         // 'device_code' => 'required|unique',
-        'state' => 'required'
+        // 'state' => 'required'
     ];
 
     
