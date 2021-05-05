@@ -33,4 +33,21 @@ Route::group(['prefix' => 'backend'], function () {
 });
 
 
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('dataVariables', App\Http\Controllers\Backend\DataVariableController::class, ["as" => 'backend']);
+});
 
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('devices', App\Http\Controllers\Backend\DeviceController::class, ["as" => 'backend']);
+});
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('villages', App\Http\Controllers\Backend\VillageController::class, ["as" => 'backend']);
+});
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('areas', App\Http\Controllers\Backend\AreaController::class, ["as" => 'backend']);
+});

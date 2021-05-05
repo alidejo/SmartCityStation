@@ -1,6 +1,13 @@
 php artisan infyom:api_scaffold Type_variable  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/type_variable.json
-php artisan infyom:api_scaffold Data_variable  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/data_variable.json
-
+php artisan infyom:api_scaffold DataVariable  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/data_variables.json
+php artisan infyom:api_scaffold Device  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/devices.json
+php artisan infyom:api_scaffold Village  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/villages.json
+php artisan infyom:api_scaffold Area  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/areas.json
+php artisan infyom:api_scaffold LocationDevice  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/location_devices.json
 
 php artisan infyom:rollback Type_variable api_scaffold
-php artisan infyom:rollback Data_variable api_scaffold
+php artisan infyom:rollback DataVariable api_scaffold
+php artisan infyom:rollback Device api_scaffold
+php artisan infyom:rollback Village api_scaffold
+php artisan infyom:rollback Area api_scaffold
+php artisan infyom:rollback LocationDevice api_scaffold

@@ -21,3 +21,23 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'backend'], function () {
     Route::resource('type_variables', App\Http\Controllers\API\Backend\Type_variableAPIController::class);
 });
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('data_variables', App\Http\Controllers\API\Backend\DataVariableAPIController::class);
+});
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('devices', App\Http\Controllers\API\Backend\DeviceAPIController::class);
+});
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('villages', App\Http\Controllers\API\Backend\VillageAPIController::class);
+});
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('areas', App\Http\Controllers\API\Backend\AreaAPIController::class);
+});

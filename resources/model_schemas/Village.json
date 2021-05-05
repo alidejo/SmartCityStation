@@ -20,38 +20,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
-    },
-    {
-        "name": "description",
-        "dbType": "string",
-        "htmlType": "textarea",
-        "validations": "",
-        "searchable": false,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true
-    },
-    {
-        "name": "alert threshold",
-        "dbType": "string",
-        "htmlType": "textarea",
-        "validations": "",
-        "searchable": false,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true
-    },
-    {
-        "name": "type_variable_id",
-        "dbType": "integer:unsigned:foreign,type_variables,id",
-        "htmlType": "number",
-        "validations": "required",
-        "searchable": true,
         "inIndex": true,
-        "relation": "mt1,Type_variable,type_variable_id,id"
+        "inView": true
     },
     {
         "name": "created_at",
@@ -62,7 +32,8 @@
         "fillable": false,
         "primary": false,
         "inForm": false,
-        "inIndex": false
+        "inIndex": false,
+        "inView": true
     },
     {
         "name": "updated_at",
@@ -73,6 +44,7 @@
         "fillable": false,
         "primary": false,
         "inForm": false,
-        "inIndex": false
+        "inIndex": false,
+        "inView": true
     }
 ]

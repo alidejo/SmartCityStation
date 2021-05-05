@@ -8,16 +8,6 @@
         </svg>
     </div><!--c-sidebar-brand-->
 
-    <li class="c-sidebar-nav-item">
-        <x-utils.link
-        icon="c-sidebar-nav-icon cil-user"
-            :href="route('backend.typeVariables.index')"
-            class="c-sidebar-nav-link"
-            :text="__('Type Variable')"
-            :active="activeClass(Route::is('backend.typeVariables.index.*'), 'c-active')" />
-    </li>
-
-
     <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item">
             <x-utils.link
@@ -106,6 +96,63 @@
                 </ul>
             </li>
         @endif
+
+        <li class="c-sidebar-nav-dropdown">
+                <x-utils.link
+                    href="#"
+                    icon="c-sidebar-nav-icon fas fa-cogs"
+                    class="c-sidebar-nav-dropdown-toggle"
+                    :text="__('Settings')" />
+
+                <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('backend.typeVariables.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Type Variable')"
+                            :active="activeClass(Route::is('backend.typeVariables.index.*'), 'c-active')" />
+                    </li>         
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('backend.dataVariables.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Data Variable')"
+                            :active="activeClass(Route::is('backend.dataVariables.index.*'), 'c-active')" />
+                    </li>        
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('backend.devices.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Device')"
+                            :active="activeClass(Route::is('backend.devices.index.*'), 'c-active')" />
+                    </li>
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('backend.villages.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Village')"
+                            :active="activeClass(Route::is('backend.villages.index.*'), 'c-active')" />
+                    </li>     
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('backend.areas.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Area')"
+                            :active="activeClass(Route::is('backend.areas.index.*'), 'c-active')" />
+                    </li>                                    
+
+                </ul>
+        </li>
+
 
     </ul>
 
