@@ -43,6 +43,8 @@
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/backend.js') }}"></script>
+    <!-- my files js should be at the end. -->
+    <script src="{{ asset('js/datesandtimes.js') }}"></script> 
     <livewire:scripts />
     @stack('after-scripts')
 </body>

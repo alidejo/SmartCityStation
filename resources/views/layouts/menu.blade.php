@@ -77,3 +77,11 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('backend.locationDevices.index') }}"
+       class="nav-link {{ Request::is('backend/locationDevices*') ? 'active' : '' }}">
+        <p>Location Devices</p>
+    </a>
+</li>
+
+

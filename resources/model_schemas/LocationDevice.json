@@ -20,7 +20,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "installation_date",
@@ -31,7 +32,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "installation_hour",
@@ -42,7 +44,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "remove_date",
@@ -53,7 +56,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "remove_hour",
@@ -64,7 +68,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "latitude",
@@ -75,7 +80,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "length",
@@ -86,7 +92,8 @@
         "fillable": true,
         "primary": false,
         "inForm": true,
-        "inIndex": true
+        "inIndex": true,
+        "inView": true
     },
     {
         "name": "device_id",
@@ -94,8 +101,11 @@
         "htmlType": "number",
         "validations": "required",
         "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
         "inIndex": true,
-        "relation": "mt1,Device,device_id,id"
+        "inView": true
     },
     {
         "name": "area_id",
@@ -103,8 +113,11 @@
         "htmlType": "number",
         "validations": "required",
         "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
         "inIndex": true,
-        "relation": "mt1,Area,area_id,id"
+        "inView": true
     },
     {
         "name": "created_at",
@@ -115,7 +128,8 @@
         "fillable": false,
         "primary": false,
         "inForm": false,
-        "inIndex": false
+        "inIndex": false,
+        "inView": true
     },
     {
         "name": "updated_at",
@@ -126,6 +140,15 @@
         "fillable": false,
         "primary": false,
         "inForm": false,
-        "inIndex": false
-    }                                            
+        "inIndex": false,
+        "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Device,device_id,id"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Area,area_id,id"
+    }
 ]

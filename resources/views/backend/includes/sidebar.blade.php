@@ -148,7 +148,16 @@
                             class="c-sidebar-nav-link"
                             :text="__('Area')"
                             :active="activeClass(Route::is('backend.areas.index.*'), 'c-active')" />
-                    </li>                                    
+                    </li>             
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('backend.locationDevices.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Location Device')"
+                            :active="activeClass(Route::is('backend.locationDevices.index.*'), 'c-active')" />
+                    </li>                                            
 
                 </ul>
         </li>

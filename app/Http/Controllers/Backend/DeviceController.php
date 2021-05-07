@@ -154,8 +154,6 @@ class DeviceController extends AppBaseController
             'updated_at' => date('Y-m-d H:i:s')
         ];
 
-        // $odjdevice = new Device($input['device_code'], $input['state'], $input['created_at'], $input['updated_at']);
-
         try {
             $device->device_code = $input['device_code'];
             $device->state = $input['state'];

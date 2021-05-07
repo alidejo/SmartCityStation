@@ -41,3 +41,8 @@ Route::group(['prefix' => 'backend'], function () {
 Route::group(['prefix' => 'backend'], function () {
     Route::resource('areas', App\Http\Controllers\API\Backend\AreaAPIController::class);
 });
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('location_devices', App\Http\Controllers\API\Backend\LocationDeviceAPIController::class);
+});
