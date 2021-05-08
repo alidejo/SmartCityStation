@@ -1,12 +1,18 @@
 <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
-    <div class="c-sidebar-brand d-lg-down-none">
+    <!-- <div class="c-sidebar-brand d-lg-down-none">
         <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
             <use xlink:href="{{ asset('img/brand/coreui.svg#full') }}"></use>
         </svg>
         <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
             <use xlink:href="{{ asset('img/brand/coreui.svg#signet') }}"></use>
         </svg>
-    </div><!--c-sidebar-brand-->
+    </div> --> <!--c-sidebar-brand-->
+
+    <div class="c-sidebar-brand d-lg-down-none">
+        <label class="c-sidebar-brand-full" width="118" height="46">
+            Phonon
+        </label>
+    </div><!--c-sidebar-brand-->    
 
     <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item">
@@ -110,7 +116,7 @@
                         icon="c-sidebar-nav-icon"
                             :href="route('backend.typeVariables.index')"
                             class="c-sidebar-nav-link"
-                            :text="__('Type Variable')"
+                            :text="__('Variable Type')"
                             :active="activeClass(Route::is('backend.typeVariables.index.*'), 'c-active')" />
                     </li>         
 
@@ -119,7 +125,7 @@
                         icon="c-sidebar-nav-icon"
                             :href="route('backend.dataVariables.index')"
                             class="c-sidebar-nav-link"
-                            :text="__('Data Variable')"
+                            :text="__('Variable Data')"
                             :active="activeClass(Route::is('backend.dataVariables.index.*'), 'c-active')" />
                     </li>        
 
@@ -155,9 +161,18 @@
                         icon="c-sidebar-nav-icon"
                             :href="route('backend.locationDevices.index')"
                             class="c-sidebar-nav-link"
-                            :text="__('Location Device')"
+                            :text="__('Device Location')"
                             :active="activeClass(Route::is('backend.locationDevices.index.*'), 'c-active')" />
-                    </li>                                            
+                    </li>        
+
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('backend.variableDevices.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Device with Variables')"
+                            :active="activeClass(Route::is('backend.variableDevices.index.*'), 'c-active')" />
+                    </li>                                                           
 
                 </ul>
         </li>

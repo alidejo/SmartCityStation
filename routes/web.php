@@ -56,3 +56,8 @@ Route::group(['prefix' => 'backend'], function () {
 Route::group(['prefix' => 'backend'], function () {
     Route::resource('locationDevices', App\Http\Controllers\Backend\LocationDeviceController::class, ["as" => 'backend']);
 });
+
+
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('variableDevices', App\Http\Controllers\Backend\VariableDeviceController::class, ["as" => 'backend']);
+});

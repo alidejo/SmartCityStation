@@ -85,3 +85,11 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('backend.variableDevices.index') }}"
+       class="nav-link {{ Request::is('backend/variableDevices*') ? 'active' : '' }}">
+        <p>Variable Devices</p>
+    </a>
+</li>
+
+

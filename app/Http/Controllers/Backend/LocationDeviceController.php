@@ -64,6 +64,12 @@ class LocationDeviceController extends AppBaseController
      */
     public function store(CreateLocationDeviceRequest $request)
     {
+        /*
+        $validated = $request->validate([
+            'latitude' => 'numeric',
+            'length' => 'numeric',
+        ]); */
+
         $today = date("Y-m-d H:i:s");
 
         try {
@@ -72,7 +78,8 @@ class LocationDeviceController extends AppBaseController
             $LocationDevice->address =  $request->address;
             $LocationDevice->installation_date =  $request->installation_date;
             $LocationDevice->installation_hour =  $request->installation_hour;
-            $LocationDevice->remove_date =  date('Y-m-d', strtotime($today));
+            $LocationDevice->remove_date =  null;
+            // $LocationDevice->remove_date =  date('Y-m-d', strtotime($today));
             $LocationDevice->remove_hour =  null;
             $LocationDevice->latitude =  $request->latitude;
             $LocationDevice->length =  $request->length;
@@ -157,6 +164,12 @@ class LocationDeviceController extends AppBaseController
      */
     public function update($id, UpdateLocationDeviceRequest $request)
     {
+        /*
+        $validated = $request->validate([
+            'latitude' => 'numeric',
+            'length' => 'numeric',
+        ]); */
+
         $locationDevice = $this->locationDeviceRepository->find($id);
 
         if (empty($locationDevice)) {

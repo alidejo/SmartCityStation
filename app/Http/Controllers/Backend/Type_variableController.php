@@ -56,9 +56,13 @@ class Type_variableController extends AppBaseController
     {
         $input = $request->all();
 
-        $typeVariable = $this->typeVariableRepository->create($input);
-
-        Flash::success('Type Variable saved successfully.');
+        try {
+            $typeVariable = $this->typeVariableRepository->create($input);
+            Flash::success('Type Variable saved successfully.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Flash::success('Error: already a varible type with this name or error to conect with database');
+        }
 
         return redirect(route('backend.typeVariables.index'));
     }
@@ -121,9 +125,14 @@ class Type_variableController extends AppBaseController
             return redirect(route('backend.typeVariables.index'));
         }
 
-        $typeVariable = $this->typeVariableRepository->update($request->all(), $id);
+        try {
+            $typeVariable = $this->typeVariableRepository->update($request->all(), $id);
 
-        Flash::success('Type Variable updated successfully.');
+            Flash::success('Type Variable updated successfully.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Flash::success('Error: already a varible type with this name or error to conect with database');            
+        }
 
         return redirect(route('backend.typeVariables.index'));
     }

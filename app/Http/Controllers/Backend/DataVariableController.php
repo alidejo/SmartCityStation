@@ -59,9 +59,13 @@ class DataVariableController extends AppBaseController
     {
         $input = $request->all();
 
-        $dataVariable = $this->dataVariableRepository->create($input);
-
-        Flash::success('Data Variable saved successfully.');
+        try {
+            $dataVariable = $this->dataVariableRepository->create($input);
+            Flash::success('Data Variable saved successfully.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Flash::success('Error: already a varible with this name or error to conect with database');            
+        }
 
         return redirect(route('backend.dataVariables.index'));
     }
@@ -126,10 +130,15 @@ class DataVariableController extends AppBaseController
 
             return redirect(route('backend.dataVariables.index'));
         }
+        
+        try {
+            $dataVariable = $this->dataVariableRepository->update($request->all(), $id);
 
-        $dataVariable = $this->dataVariableRepository->update($request->all(), $id);
-
-        Flash::success('Data Variable updated successfully.');
+            Flash::success('Data Variable updated successfully.');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Flash::success('Error: already a varible with this name or error to conect with database');             
+        }
 
         return redirect(route('backend.dataVariables.index'));
     }

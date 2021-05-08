@@ -39,13 +39,13 @@
 <!-- Latitude Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('latitude', 'Latitude:') !!}
-    {!! Form::text('latitude', null, ['class' => 'form-control']) !!}
+    {!! Form::number('latitude', null, ['class' => 'form-control', 'step'=>'any']) !!}
 </div>
 
 <!-- Length Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('length', 'Length:') !!}
-    {!! Form::text('length', null, ['class' => 'form-control']) !!}
+    {!! Form::number('length', null, ['class' => 'form-control', 'step'=>'any']) !!}
 </div>
 
 <!-- Device Id Field -->

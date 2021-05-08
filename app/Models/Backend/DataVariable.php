@@ -46,7 +46,8 @@ class DataVariable extends Model
         'id' => 'integer',
         'name' => 'string',
         'description' => 'string',
-        'alert_threshold' => 'string',
+        'alert_threshold' => 'float',
+        // 'alert_threshold' => 'string',
         'type_variable_id' => 'integer'
     ];
 

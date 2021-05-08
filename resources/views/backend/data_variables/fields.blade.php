@@ -13,7 +13,7 @@
 <!-- Alert Threshold Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('alert_threshold', 'Alert Threshold:') !!}
-    {!! Form::text('alert_threshold', null, ['class' => 'form-control']) !!}
+    {!! Form::number('alert_threshold', null, ['class' => 'form-control', 'step'=>'any']) !!}
 </div>
 
 <!-- Type Variable Id Field -->

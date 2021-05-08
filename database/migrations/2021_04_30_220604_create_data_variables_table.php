@@ -18,7 +18,8 @@ class CreateDataVariablesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
-            $table->string('alert_threshold');
+            $table->float('alert_threshold', 4, 2)->nullable();
+            // $table->string('alert_threshold');
             $table->integer('type_variable_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
