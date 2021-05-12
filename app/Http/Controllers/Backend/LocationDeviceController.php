@@ -170,39 +170,52 @@ class LocationDeviceController extends AppBaseController
             'length' => 'numeric',
         ]); */
 
-        $locationDevice = $this->locationDeviceRepository->find($id);
 
-        if (empty($locationDevice)) {
-            Flash::error('Location Device not found');
+        /* Before of continue, the dates are validate */
+        if(! $this->validate_dates($request->installation_date , $request->remove_date)){
+
+            Flash::error('The removing date is less than or equal to the installing date');
 
             return redirect(route('backend.locationDevices.index'));
-        }
+            // return redirect(route('backend.locationDevices.edit', [$id]));
 
-        $locationDevice->address =  $request->address;      
-        $locationDevice->installation_date =  $request->installation_date;
-        $locationDevice->installation_hour =  $request->installation_hour;
-        
-        
-        if($request->remove_date == null){
-            $locationDevice->remove_date =  session('removeDate');  // Get, Session Variable)
         } else {
-            $locationDevice->remove_date =  $request->remove_date;           
+
+            $locationDevice = $this->locationDeviceRepository->find($id);
+
+            if (empty($locationDevice)) {
+                Flash::error('Location Device not found');
+
+                return redirect(route('backend.locationDevices.index'));
+            }
+
+            $locationDevice->address =  $request->address;      
+            $locationDevice->installation_date =  $request->installation_date;
+            $locationDevice->installation_hour =  $request->installation_hour;
+            
+            
+            if($request->remove_date == null){
+                $locationDevice->remove_date =  session('removeDate');  // Get, Session Variable)
+            } else {
+                $locationDevice->remove_date =  $request->remove_date;           
+            }
+            $locationDevice->remove_hour = null; 
+            $locationDevice->latitude =  $request->latitude;
+            $locationDevice->length =  $request->length;
+            $locationDevice->device_id =  $request->device_id;
+            $locationDevice->area_id =  $request->area_id;
+            $locationDevice->created_at =  $request->created_at;
+            $locationDevice->updated_at =  $request->updated_at;
+
+            $locationDevice->save();
+
+            // $locationDevice = $this->locationDeviceRepository->update($request->all(), $id);
+
+            Flash::success('Location Device updated successfully.');
+
+            return redirect(route('backend.locationDevices.index'));
+
         }
-        $locationDevice->remove_hour = null; 
-        $locationDevice->latitude =  $request->latitude;
-        $locationDevice->length =  $request->length;
-        $locationDevice->device_id =  $request->device_id;
-        $locationDevice->area_id =  $request->area_id;
-        $locationDevice->created_at =  $request->created_at;
-        $locationDevice->updated_at =  $request->updated_at;
-
-        $locationDevice->save();
-
-        // $locationDevice = $this->locationDeviceRepository->update($request->all(), $id);
-
-        Flash::success('Location Device updated successfully.');
-
-        return redirect(route('backend.locationDevices.index'));
     }
 
     /**
@@ -230,4 +243,36 @@ class LocationDeviceController extends AppBaseController
 
         return redirect(route('backend.locationDevices.index'));
     }
+
+
+    /*
+        This function validate that, the removing date is greater than the installing date.
+    */
+    private function validate_dates($dateInstall , $dateRemove){
+
+        $diffDate = true;
+
+        $ts1 = strtotime($dateInstall);
+        $ts2 = strtotime($dateRemove);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $day1 = date('d', $ts1);
+        $day2 = date('d', $ts2);      
+        
+        if($year2 < $year1){
+            $diffDate = false;
+        } elseif($month2 < $month1){
+            $diffDate = false;
+        } elseif($day2 <= $day1){
+            $diffDate = false;
+        }
+
+        return $diffDate;
+    }
+
 }
