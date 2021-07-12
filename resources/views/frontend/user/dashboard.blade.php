@@ -13,7 +13,7 @@
 
                     <x-slot name="body">
                         @lang('You are logged in!')
-                    </x-slot>
+                    </x-slot>                  
                 </x-frontend.card>
             </div><!--col-md-10-->
         </div><!--row-->

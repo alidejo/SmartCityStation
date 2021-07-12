@@ -61,3 +61,8 @@ Route::group(['prefix' => 'backend'], function () {
 Route::group(['prefix' => 'backend'], function () {
     Route::resource('variableDevices', App\Http\Controllers\Backend\VariableDeviceController::class, ["as" => 'backend']);
 });
+
+
+Route::group(['prefix' => 'frontend'], function () {
+    Route::resource('measures', App\Http\Controllers\Frontend\MeasureController::class, ["as" => 'frontend']);
+});

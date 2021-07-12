@@ -93,3 +93,11 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('frontend.measures.index') }}"
+       class="nav-link {{ Request::is('frontend/measures*') ? 'active' : '' }}">
+        <p>Measures</p>
+    </a>
+</li>
+
+
