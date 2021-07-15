@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 
+use App\Models\Backend\Type_variable;
+
 class Type_variableController extends AppBaseController
 {
     /** @var  Type_variableRepository */
@@ -64,7 +66,7 @@ class Type_variableController extends AppBaseController
             Flash::success('Error: already a varible type with this name or error to conect with database');
         }
 
-        return redirect(route('backend.typeVariables.index'));
+        return redirect(route('admin.typeVariables.index'));
     }
 
     /**
@@ -81,7 +83,7 @@ class Type_variableController extends AppBaseController
         if (empty($typeVariable)) {
             Flash::error('Type Variable not found');
 
-            return redirect(route('backend.typeVariables.index'));
+            return redirect(route('admin.typeVariables.index'));
         }
 
         return view('backend.type_variables.show')->with('typeVariable', $typeVariable);
@@ -101,7 +103,7 @@ class Type_variableController extends AppBaseController
         if (empty($typeVariable)) {
             Flash::error('Type Variable not found');
 
-            return redirect(route('backend.typeVariables.index'));
+            return redirect(route('admin.typeVariables.index'));
         }
 
         return view('backend.type_variables.edit')->with('typeVariable', $typeVariable);
@@ -122,7 +124,7 @@ class Type_variableController extends AppBaseController
         if (empty($typeVariable)) {
             Flash::error('Type Variable not found');
 
-            return redirect(route('backend.typeVariables.index'));
+            return redirect(route('admin.typeVariables.index'));
         }
 
         try {
@@ -134,7 +136,7 @@ class Type_variableController extends AppBaseController
             Flash::success('Error: already a varible type with this name or error to conect with database');            
         }
 
-        return redirect(route('backend.typeVariables.index'));
+        return redirect(route('admin.typeVariables.index'));
     }
 
     /**
@@ -153,13 +155,28 @@ class Type_variableController extends AppBaseController
         if (empty($typeVariable)) {
             Flash::error('Type Variable not found');
 
-            return redirect(route('backend.typeVariables.index'));
+            return redirect(route('admin.typeVariables.index'));
         }
 
         $this->typeVariableRepository->delete($id);
 
         Flash::success('Type Variable deleted successfully.');
 
-        return redirect(route('backend.typeVariables.index'));
+        return redirect(route('admin.typeVariables.index'));
     }
+
+    /**
+     * This méthod, get the id and nombre of talbe Tipo_variable.
+     */
+    public function getVariableType(){
+        $variablesType = Type_variable::select('id', 'name')
+                                        ->orderBy('id')
+                                        ->get();
+
+        // $tipoVaribles_json = json_encode($tipoVaribles);  // de Odjeto a JSON.
+        $variablesType_json = $variablesType->toJson();  // de Odjeto a JSON.
+
+        return $variablesType_json;
+    }
+
 }

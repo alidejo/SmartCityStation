@@ -13,12 +13,12 @@
                 <td>{{ $typeVariable->name }}</td>
             <td>{{ $typeVariable->description }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['backend.typeVariables.destroy', $typeVariable->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.typeVariables.destroy', $typeVariable->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('backend.typeVariables.show', [$typeVariable->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.typeVariables.show', [$typeVariable->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('backend.typeVariables.edit', [$typeVariable->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.typeVariables.edit', [$typeVariable->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}

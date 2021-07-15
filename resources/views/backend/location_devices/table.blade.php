@@ -31,12 +31,12 @@
             <td>{{ $locationDevice->device->device_code }}</td>
             <td>{{ $locationDevice->area->name }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['backend.locationDevices.destroy', $locationDevice->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.locationDevices.destroy', $locationDevice->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('backend.locationDevices.show', [$locationDevice->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.locationDevices.show', [$locationDevice->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('backend.locationDevices.edit', [$locationDevice->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.locationDevices.edit', [$locationDevice->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}

@@ -67,7 +67,7 @@ class DataVariableController extends AppBaseController
             Flash::success('Error: already a varible with this name or error to conect with database');            
         }
 
-        return redirect(route('backend.dataVariables.index'));
+        return redirect(route('admin.dataVariables.index'));
     }
 
     /**
@@ -84,7 +84,7 @@ class DataVariableController extends AppBaseController
         if (empty($dataVariable)) {
             Flash::error('Data Variable not found');
 
-            return redirect(route('backend.dataVariables.index'));
+            return redirect(route('admin.dataVariables.index'));
         }
 
         return view('backend.data_variables.show')->with('dataVariable', $dataVariable);
@@ -106,7 +106,7 @@ class DataVariableController extends AppBaseController
         if (empty($dataVariable)) {
             Flash::error('Data Variable not found');
 
-            return redirect(route('backend.dataVariables.index'));
+            return redirect(route('admin.dataVariables.index'));
         }
 
         return view('backend.data_variables.edit')->with(compact('dataVariable','tipyVariables'));
@@ -128,7 +128,7 @@ class DataVariableController extends AppBaseController
         if (empty($dataVariable)) {
             Flash::error('Data Variable not found');
 
-            return redirect(route('backend.dataVariables.index'));
+            return redirect(route('admin.dataVariables.index'));
         }
         
         try {
@@ -140,7 +140,7 @@ class DataVariableController extends AppBaseController
             Flash::success('Error: already a varible with this name or error to conect with database');             
         }
 
-        return redirect(route('backend.dataVariables.index'));
+        return redirect(route('admin.dataVariables.index'));
     }
 
     /**
@@ -159,13 +159,13 @@ class DataVariableController extends AppBaseController
         if (empty($dataVariable)) {
             Flash::error('Data Variable not found');
 
-            return redirect(route('backend.dataVariables.index'));
+            return redirect(route('admin.dataVariables.index'));
         }
 
         $this->dataVariableRepository->delete($id);
 
         Flash::success('Data Variable deleted successfully.');
 
-        return redirect(route('backend.dataVariables.index'));
+        return redirect(route('admin.dataVariables.index'));
     }
 }

@@ -67,7 +67,7 @@ class VariableDeviceController extends AppBaseController
 
         Flash::success('Variable Device saved successfully.');
 
-        return redirect(route('backend.variableDevices.index'));
+        return redirect(route('admin.variableDevices.index'));
     }
 
     /**
@@ -84,7 +84,7 @@ class VariableDeviceController extends AppBaseController
         if (empty($variableDevice)) {
             Flash::error('Variable Device not found');
 
-            return redirect(route('backend.variableDevices.index'));
+            return redirect(route('admin.variableDevices.index'));
         }
 
         return view('backend.variable_devices.show')->with('variableDevice', $variableDevice);
@@ -107,7 +107,7 @@ class VariableDeviceController extends AppBaseController
         if (empty($variableDevice)) {
             Flash::error('Variable Device not found');
 
-            return redirect(route('backend.variableDevices.index'));
+            return redirect(route('admin.variableDevices.index'));
         }
 
         return view('backend.variable_devices.edit')->with(compact('variableDevice', 'devicies', 'variables'));          
@@ -129,14 +129,14 @@ class VariableDeviceController extends AppBaseController
         if (empty($variableDevice)) {
             Flash::error('Variable Device not found');
 
-            return redirect(route('backend.variableDevices.index'));
+            return redirect(route('admin.variableDevices.index'));
         }
 
         $variableDevice = $this->variableDeviceRepository->update($request->all(), $id);
 
         Flash::success('Variable Device updated successfully.');
 
-        return redirect(route('backend.variableDevices.index'));
+        return redirect(route('admin.variableDevices.index'));
     }
 
     /**
@@ -155,13 +155,13 @@ class VariableDeviceController extends AppBaseController
         if (empty($variableDevice)) {
             Flash::error('Variable Device not found');
 
-            return redirect(route('backend.variableDevices.index'));
+            return redirect(route('admin.variableDevices.index'));
         }
 
         $this->variableDeviceRepository->delete($id);
 
         Flash::success('Variable Device deleted successfully.');
 
-        return redirect(route('backend.variableDevices.index'));
+        return redirect(route('admin.variableDevices.index'));
     }
 }

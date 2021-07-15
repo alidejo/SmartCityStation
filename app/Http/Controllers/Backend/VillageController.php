@@ -60,7 +60,7 @@ class VillageController extends AppBaseController
 
         Flash::success('Village saved successfully.');
 
-        return redirect(route('backend.villages.index'));
+        return redirect(route('admin.villages.index'));
     }
 
     /**
@@ -77,7 +77,7 @@ class VillageController extends AppBaseController
         if (empty($village)) {
             Flash::error('Village not found');
 
-            return redirect(route('backend.villages.index'));
+            return redirect(route('admin.villages.index'));
         }
 
         return view('backend.villages.show')->with('village', $village);
@@ -97,7 +97,7 @@ class VillageController extends AppBaseController
         if (empty($village)) {
             Flash::error('Village not found');
 
-            return redirect(route('backend.villages.index'));
+            return redirect(route('admin.villages.index'));
         }
 
         return view('backend.villages.edit')->with('village', $village);
@@ -118,14 +118,14 @@ class VillageController extends AppBaseController
         if (empty($village)) {
             Flash::error('Village not found');
 
-            return redirect(route('backend.villages.index'));
+            return redirect(route('admin.villages.index'));
         }
 
         $village = $this->villageRepository->update($request->all(), $id);
 
         Flash::success('Village updated successfully.');
 
-        return redirect(route('backend.villages.index'));
+        return redirect(route('admin.villages.index'));
     }
 
     /**
@@ -144,13 +144,13 @@ class VillageController extends AppBaseController
         if (empty($village)) {
             Flash::error('Village not found');
 
-            return redirect(route('backend.villages.index'));
+            return redirect(route('admin.villages.index'));
         }
 
         $this->villageRepository->delete($id);
 
         Flash::success('Village deleted successfully.');
 
-        return redirect(route('backend.villages.index'));
+        return redirect(route('admin.villages.index'));
     }
 }

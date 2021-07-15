@@ -103,7 +103,7 @@ class LocationDeviceController extends AppBaseController
 
         // Flash::success('Location Device saved successfully.');
 
-        return redirect(route('backend.locationDevices.index'));
+        return redirect(route('admin.locationDevices.index'));
     }
 
     /**
@@ -120,7 +120,7 @@ class LocationDeviceController extends AppBaseController
         if (empty($locationDevice)) {
             Flash::error('Location Device not found');
 
-            return redirect(route('backend.locationDevices.index'));
+            return redirect(route('admin.locationDevices.index'));
         }
 
         return view('backend.location_devices.show')->with('locationDevice', $locationDevice);
@@ -144,7 +144,7 @@ class LocationDeviceController extends AppBaseController
         if (empty($locationDevice)) {
             Flash::error('Location Device not found');
 
-            return redirect(route('backend.locationDevices.index'));
+            return redirect(route('admin.locationDevices.index'));
         }
 
 
@@ -176,8 +176,8 @@ class LocationDeviceController extends AppBaseController
 
             Flash::error('The removing date is less than or equal to the installing date');
 
-            return redirect(route('backend.locationDevices.index'));
-            // return redirect(route('backend.locationDevices.edit', [$id]));
+            return redirect(route('admin.locationDevices.index'));
+            // return redirect(route('admin.locationDevices.edit', [$id]));
 
         } else {
 
@@ -186,7 +186,7 @@ class LocationDeviceController extends AppBaseController
             if (empty($locationDevice)) {
                 Flash::error('Location Device not found');
 
-                return redirect(route('backend.locationDevices.index'));
+                return redirect(route('admin.locationDevices.index'));
             }
 
             $locationDevice->address =  $request->address;      
@@ -213,7 +213,7 @@ class LocationDeviceController extends AppBaseController
 
             Flash::success('Location Device updated successfully.');
 
-            return redirect(route('backend.locationDevices.index'));
+            return redirect(route('admin.locationDevices.index'));
 
         }
     }
@@ -234,14 +234,14 @@ class LocationDeviceController extends AppBaseController
         if (empty($locationDevice)) {
             Flash::error('Location Device not found');
 
-            return redirect(route('backend.locationDevices.index'));
+            return redirect(route('admin.locationDevices.index'));
         }
 
         $this->locationDeviceRepository->delete($id);
 
         Flash::success('Location Device deleted successfully.');
 
-        return redirect(route('backend.locationDevices.index'));
+        return redirect(route('admin.locationDevices.index'));
     }
 
 

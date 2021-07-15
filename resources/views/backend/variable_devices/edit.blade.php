@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($variableDevice, ['route' => ['backend.variableDevices.update', $variableDevice->id], 'method' => 'patch']) !!}
+            {!! Form::model($variableDevice, ['route' => ['admin.variableDevices.update', $variableDevice->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">
@@ -27,7 +27,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('backend.variableDevices.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.variableDevices.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
            {!! Form::close() !!}

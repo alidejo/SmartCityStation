@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($locationDevice, ['route' => ['backend.locationDevices.update', $locationDevice->id], 'method' => 'patch']) !!}
+            {!! Form::model($locationDevice, ['route' => ['admin.locationDevices.update', $locationDevice->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">
@@ -27,7 +27,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('backend.locationDevices.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.locationDevices.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
            {!! Form::close() !!}

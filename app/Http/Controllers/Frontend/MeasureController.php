@@ -164,4 +164,11 @@ class MeasureController extends AppBaseController
 
         return redirect(route('frontend.measures.index'));
     }
+
+    public function measureIndex(Request $request){
+        return view('frontend.measures.query_measure');
+    }
+
+
+
 }

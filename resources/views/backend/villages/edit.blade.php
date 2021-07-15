@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($village, ['route' => ['backend.villages.update', $village->id], 'method' => 'patch']) !!}
+            {!! Form::model($village, ['route' => ['admin.villages.update', $village->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">
@@ -27,7 +27,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('backend.villages.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.villages.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
            {!! Form::close() !!}

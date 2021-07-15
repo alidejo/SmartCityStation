@@ -17,12 +17,12 @@
                     <td>Not Active</td>
                 @endif
                 <td width="120">
-                    {!! Form::open(['route' => ['backend.devices.destroy', $device->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.devices.destroy', $device->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('backend.devices.show', [$device->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.devices.show', [$device->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('backend.devices.edit', [$device->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.devices.edit', [$device->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}

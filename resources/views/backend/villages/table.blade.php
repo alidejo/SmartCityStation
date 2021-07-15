@@ -11,12 +11,12 @@
             <tr>
                 <td>{{ $village->name }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['backend.villages.destroy', $village->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['admin.villages.destroy', $village->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('backend.villages.show', [$village->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.villages.show', [$village->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('backend.villages.edit', [$village->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('admin.villages.edit', [$village->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
                         {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}

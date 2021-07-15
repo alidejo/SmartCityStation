@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-default float-right"
-                       href="{{ route('backend.areas.index') }}">
+                       href="{{ route('admin.areas.index') }}">
                         Back
                     </a>
                 </div>

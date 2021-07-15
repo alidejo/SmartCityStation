@@ -79,7 +79,7 @@ class DeviceController extends AppBaseController
             Flash::success('The Device Code already exists.');
         }
 
-        return redirect(route('backend.devices.index'));
+        return redirect(route('admin.devices.index'));
     }
 
     /**
@@ -96,7 +96,7 @@ class DeviceController extends AppBaseController
         if (empty($device)) {
             Flash::error('Device not found');
 
-            return redirect(route('backend.devices.index'));
+            return redirect(route('admin.devices.index'));
         }
 
         return view('backend.devices.show')->with('device', $device);
@@ -116,7 +116,7 @@ class DeviceController extends AppBaseController
         if (empty($device)) {
             Flash::error('Device not found');
 
-            return redirect(route('backend.devices.index'));
+            return redirect(route('admin.devices.index'));
         }
 
         return view('backend.devices.edit')->with('device', $device);
@@ -137,7 +137,7 @@ class DeviceController extends AppBaseController
         if (empty($device)) {
             Flash::error('Device not found');
 
-            return redirect(route('backend.devices.index'));
+            return redirect(route('admin.devices.index'));
         }
 
         $state = 0;
@@ -170,7 +170,7 @@ class DeviceController extends AppBaseController
             Flash::success('The Device Code already exists.');
         }
 
-        return redirect(route('backend.devices.index'));
+        return redirect(route('admin.devices.index'));
     }
 
     /**
@@ -189,13 +189,13 @@ class DeviceController extends AppBaseController
         if (empty($device)) {
             Flash::error('Device not found');
 
-            return redirect(route('backend.devices.index'));
+            return redirect(route('admin.devices.index'));
         }
 
         $this->deviceRepository->delete($id);
 
         Flash::success('Device deleted successfully.');
 
-        return redirect(route('backend.devices.index'));
+        return redirect(route('admin.devices.index'));
     }
 }

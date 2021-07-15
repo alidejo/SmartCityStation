@@ -22,7 +22,7 @@
             <li class="breadcrumb-item active" aria-current="page">            
                 <x-utils.link
                 icon="c-sidebar-nav-icon"
-                    :href="route('frontend.measures.index')"
+                    :href="route('frontend.measures.measureIndex')"
                     class="c-sidebar-nav-link"
                     :text="__('Measures')"
                     :active="activeClass(Route::is('frontend.measures.index.*'), 'c-active')" />

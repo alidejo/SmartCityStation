@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('backend.variableDevices.create') }}">
+                       href="{{ route('admin.variableDevices.create') }}">
                         Add New
                     </a>
                 </div>

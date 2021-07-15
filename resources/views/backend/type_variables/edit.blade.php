@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($typeVariable, ['route' => ['backend.typeVariables.update', $typeVariable->id], 'method' => 'patch']) !!}
+            {!! Form::model($typeVariable, ['route' => ['admin.typeVariables.update', $typeVariable->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">
@@ -27,7 +27,7 @@
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('backend.typeVariables.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.typeVariables.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
            {!! Form::close() !!}
