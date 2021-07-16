@@ -166,14 +166,14 @@ class Type_variableController extends AppBaseController
     }
 
     /**
-     * This méthod, get the id and nombre of talbe Tipo_variable.
+     * This méthod, get the id and name of talbe Tipo_variable.
      */
     public function getVariableType(){
         $variablesType = Type_variable::select('id', 'name')
                                         ->orderBy('id')
                                         ->get();
 
-        // $tipoVaribles_json = json_encode($tipoVaribles);  // de Odjeto a JSON.
+        // $tipoVaribles_json = json_encode($variablesType);  // de Odjeto a JSON.
         $variablesType_json = $variablesType->toJson();  // de Odjeto a JSON.
 
         return $variablesType_json;

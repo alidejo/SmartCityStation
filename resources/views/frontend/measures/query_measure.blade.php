@@ -31,6 +31,7 @@
 
 @section('script')
 <script>
+
     function getVariableType(){
 
     console.log("Llego a getVariableType ... ");
