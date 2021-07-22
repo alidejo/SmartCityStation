@@ -12,5 +12,5 @@
         <scrit src="{{ mix('js/manifest.js') }}"></scrit>
         <scrit src="{{ mix('js/vendor.js') }}"></scrit>
         <scrit src="{{ mix('js/frontend.js') }}"></scrit>
-
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
         @yield('script-bottom')

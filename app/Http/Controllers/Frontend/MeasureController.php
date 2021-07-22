@@ -12,9 +12,14 @@ use Response;
 
 use App\Models\Backend\Device;
 use App\Models\Backend\DataVariable;
+use App\Models\Frontend\Measure;
+use App\DTO\Collection;
+use App\DTO\MeasureObject;
 
 class MeasureController extends AppBaseController
 {
+    private $collectionMeasuresDate;
+
     /** @var  MeasureRepository */
     private $measureRepository;
 
@@ -169,6 +174,241 @@ class MeasureController extends AppBaseController
         return view('frontend.measures.query_measure');
     }
 
+    /**
+     * This main function, for get the measures data:
+     */
+    public function showMeasures(Request $request){
 
+        $input = $request->all();
+        $variable = $input['variable'];
+        $startDate = $input['startDate'];
+        $endDate = $input['endDate'];
+        $startTime = $input['startTime'];
+        $endTime = $input['endTime']; 
+        
+        $Measures_json = '';
+
+        if($startDate == $endDate){
+            if(($startTime == '00:00:00') && ($endTime == '00:00:00')){
+                $startTime = '00:00:01';
+                $endTime = '23:59:59';
+            }
+
+            $measuresDay = $this->getMeasuresDay($variable, $startDate, $startTime, $endTime);
+
+            if(count($measuresDay) > 0){
+                // $Measures_json = $measuresDay->toJson();  // de Odjeto a JSON.
+                $Measures_json = json_encode($measuresDay);  // de Odjeto a JSON. 
+            }       
+
+        } else {
+
+            $measuresDate = $this->getMeasuresDate($variable, $startDate, $endDate);
+
+            if(count($measuresDate) > 0){
+                $diffMonth = $this->diff_Month($startDate , $endDate);
+
+                if($diffMonth == 0) {
+                    $this->getAverageForDay($measuresDate);             
+                } elseif(($diffMonth > 0) && ($diffMonth < 13)) {
+                    $this->getAverageForMonths($measuresDate);                      
+                } else {
+                    $this->getAverageForYears($measuresDate);
+                }
+            }
+        }
+
+        if(isset($this->collectionMeasuresDate) && !empty($this->collectionMeasuresDate)){
+            $measuresFinal = (array)$this->collectionMeasuresDate;
+            $Measures_json = json_encode($measuresFinal);  // de Odjeto a JSON.
+
+            $Measures_json = substr($Measures_json, 40);
+            $Measures_json = substr($Measures_json, 0, -1);
+        } elseif(!isset($measuresDate) && !isset($measuresDay)){
+            $response = (array)[];
+            $Measures_json = json_encode($response);  // de Odjeto a JSON.
+        }
+
+        return $Measures_json;        
+
+    }
+
+
+    /*
+        This function take the id variable, start date, start time and end time, 
+        return the collection of measures of day.
+    */
+    private function getMeasuresDay($idVar, $startDate, $startTime, $endTime){
+
+        $Measures = Measure::select('date', 'hour', 'data')
+                            ->where('data_variable_id', $idVar)
+                            ->where('date', $startDate)
+                            ->whereBetween('hour', [$startTime, $endTime])
+                            ->orderBy('hour', 'asc')->get();
+
+        return $Measures;
+    }    
+
+    /*
+        This function take the id variable, start date, and end date, 
+        return the collection of measures for a range dates.
+    */    
+    private function getMeasuresDate($idVar, $startDate, $endDate){
+        $Measures = Measure::select('date', 'hour', 'data')
+                            ->where('data_variable_id', $idVar)            
+                            ->whereBetween('date', [$startDate, $endDate])
+                            ->orderBy('date', 'asc')->get();
+
+        return $Measures;                            
+    }    
+
+    /*
+        This function take two dates and return their difference in month.
+    */
+    private function diff_Month($dateOne , $dateTwo){
+        $diffMonth = 0;
+
+        $ts1 = strtotime($dateOne);
+        $ts2 = strtotime($dateTwo);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        if(($year2 == $year1) && ($month2 == $month1)){
+            $diffMonth = (($year2 - $year1) * 12) + ($month2 - $month1);
+        } elseif(($year2 == $year1) && ($month2 > $month1)){
+            $diffMonth = $month2 - $month1;
+        } elseif($year2 > $year1){
+            $diffMonth = ($year2 - $year1) + 12; 
+        }
+
+        return $diffMonth;
+    }    
+
+
+    /*
+        This function push the objects with the average for days.
+    */
+    private function getAverageForDay($measuresDate) : void
+    {
+        $this->collectionMeasuresDate = new Collection();
+
+        $sumData = 0;
+        $contData = 0;
+        $average = 0;
+        $auxDay = '';
+
+        foreach($measuresDate as $measureDate){
+            $components = preg_split("[-]", $measureDate->date);
+
+            if($contData == 0){
+                $auxDay = substr($components[2], 0, 2);
+            } elseif(substr($components[2], 0, 2) != $auxDay){
+                $average = $sumData / $contData;
+                $average = number_format($average, 2);
+                $average = (float)$average;
+
+                $measure = new MeasureObject($auxDay, $average);
+                $this->collectionMeasuresDate->add( $measure);
+
+                $sumData = 0;
+                $contData = 0; 
+                $auxDay = substr($components[2], 0, 2);                      
+            }
+            $sumData += $measureDate->data;
+            $contData += 1;
+        }
+        $average = $sumData / $contData;
+        $average = number_format($average, 2);
+        $average = (float)$average;      
+
+        $measure = new MeasureObject($auxDay, $average);
+        $this->collectionMeasuresDate->add( $measure);
+    }
+
+    /*
+        This function push the objects with the average for months.
+    */
+    private function getAverageForMonths ($measuresDate) : void
+    {
+        $this->collectionMeasuresDate = new Collection();
+
+        $sumData = 0;
+        $contData = 0;
+        $average = 0;
+        $auxMonth = '';
+
+        foreach($measuresDate as $measureDate){
+            $components = preg_split("[-]", $measureDate->date); 
+
+            if($contData == 0){
+                $auxMonth = substr($components[1], 0, 2);
+
+            } elseif(substr($components[1], 0, 2) != $auxMonth){
+                $average = $sumData / $contData;
+                $average = number_format($average, 2);
+                $average = (float)$average;
+                
+                $measure = new MeasureObject($auxMonth, $average);
+                $this->collectionMeasuresDate->add( $measure);
+
+                $sumData = 0;
+                $contData = 0; 
+                $auxMonth = substr($components[1], 0, 2);                     
+            }
+            $sumData += $measureDate->data;
+            $contData += 1;
+        }
+        $average = $sumData / $contData;
+        $average = number_format($average, 2);
+        $average = (float)$average;        
+
+        $measure = new MeasureObject($auxMonth, $average);
+        $this->collectionMeasuresDate->add( $measure);         
+    }    
+
+    /*
+        This function push the objects with the average for years.
+    */
+    private function getAverageForYears ($measuresDate) : void
+    {
+        $this->collectionMeasuresDate = new Collection();
+
+        $sumData = 0;
+        $contData = 0;
+        $average = 0;
+        $auxYears = '';
+
+        foreach($measuresDate as $measureDate){
+            $components = preg_split("[-]", $measureDate->date);
+
+            if($contData == 0){
+                $auxYears = substr($components[0], 0, 4);
+
+            } elseif(substr($components[0], 0, 4) != $auxYears){
+                $average = $sumData / $contData;
+                $average = number_format($average, 2);
+                $average = (float)$average;                
+
+                $measure = new MeasureObject($auxYears, $average);
+                $this->collectionMeasuresDate->add( $measure);
+
+                $sumData = 0;
+                $contData = 0; 
+                $auxYears = substr($components[0], 0, 4);                       
+            }
+            $sumData += $measureDate->data;
+            $contData += 1;
+        }
+        $average = $sumData / $contData;
+        $average = number_format($average, 2);
+        $average = (float)$average;                
+
+        $measure = new MeasureObject($auxYears, $average);
+        $this->collectionMeasuresDate->add( $measure);     
+    } 
 
 }

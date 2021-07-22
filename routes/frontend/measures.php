@@ -9,6 +9,10 @@ Route::group(['middleware' => ['auth', 'password.expires', config('boilerplate.a
 
     Route::get('variabletype/getvariabletype',[App\Http\Controllers\Backend\Type_variableController::class, 'getVariableType'])->name('variabletype.getvariabletype'); 
 
+    Route::get('variabledata/getvariabledata',[App\Http\Controllers\Backend\DataVariableController::class, 'getVariableData'])->name('variabledata.getvariabledata');     
+
+    Route::get('measure/showmeasures',[App\Http\Controllers\Frontend\MeasureController::class, 'showMeasures'])->name('measure.showmeasures'); 
+    
 });
 
 

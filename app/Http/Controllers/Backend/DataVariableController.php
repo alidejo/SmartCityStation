@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use App\Models\Backend\Type_variable;
+use App\Models\Backend\DataVariable;
 
 class DataVariableController extends AppBaseController
 {
@@ -167,5 +168,21 @@ class DataVariableController extends AppBaseController
         Flash::success('Data Variable deleted successfully.');
 
         return redirect(route('admin.dataVariables.index'));
+    }
+
+    /**
+     *  This méthod, get the variable data tha to be equeal to id of type variable.
+     */
+    public function getVariableData(Request $request){
+        $input = $request->all();
+        $variableTypeId = $input['variableTypeId']; 
+
+        $variableData = DataVariable::select('id', 'name')
+                                      ->where('type_variable_id', $variableTypeId)
+                                      ->get();
+
+        $variableData_json = $variableData->toJson();  // de Odjeto a JSON.
+
+        return $variableData_json;        
     }
 }

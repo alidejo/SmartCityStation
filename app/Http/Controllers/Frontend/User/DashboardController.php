@@ -12,6 +12,7 @@ class DashboardController
      */
     public function index()
     {
-        return view('frontend.user.dashboard');
+        return view('frontend.measures.query_measure');
+        // return view('frontend.user.dashboard');
     }
 }
