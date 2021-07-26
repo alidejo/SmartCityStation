@@ -2,8 +2,8 @@
     <table class="table" id="villages-table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th colspan="3">Action</th>
+                <th>@lang('Name')</th>
+                <th colspan="3">@lang('Action')</th>
             </tr>
         </thead>
         <tbody>

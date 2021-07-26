@@ -2,11 +2,11 @@
     <table class="table" id="dataVariables-table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Alert Threshold</th>
-                <th>Type Variable</th>
-                <th colspan="3">Action</th>
+                <th>@lang('Name')</th>
+                <th>@lang('Description')</th>
+                <th>@lang('Alert Threshold')</th>
+                <th>@lang('Type Variables')</th>
+                <th colspan="3">@lang('Action')</th>
             </tr>
         </thead>
         <tbody>

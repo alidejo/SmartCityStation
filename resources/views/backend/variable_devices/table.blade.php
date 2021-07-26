@@ -2,9 +2,9 @@
     <table class="table" id="variableDevices-table">
         <thead>
             <tr>
-                <th>Device</th>
+                <th>@lang('Device')</th>
                 <th>Variable</th>
-                <th colspan="3">Action</th>
+                <th colspan="3">@lang('Action')</th>
             </tr>
         </thead>
         <tbody>

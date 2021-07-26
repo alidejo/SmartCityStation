@@ -2,9 +2,9 @@
     <table class="table" id="areas-table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Village</th>
-                <th colspan="3">Action</th>
+                <th>@lang('Name')</th>
+                <th>@lang('Village')</th>
+                <th colspan="3">@lang('Action')</th>
             </tr>
         </thead>
         <tbody>

@@ -24,6 +24,9 @@ class UserSeeder extends Seeder
         User::create([
             'type' => User::TYPE_ADMIN,
             'name' => 'Super Admin',
+            'surname' => '',
+            'phone'=> '3146133941',
+            'address'=>'',
             'email' => 'admin@smartcitystation.com',
             'password' => 'secret',
             'email_verified_at' => now(),

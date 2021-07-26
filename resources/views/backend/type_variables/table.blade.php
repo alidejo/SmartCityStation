@@ -2,9 +2,9 @@
     <table class="table" id="typeVariables-table">
         <thead>
             <tr>
-                <th>Name</th>
-        <th>Description</th>
-                <th colspan="3">Action</th>
+                <th>@lang('Name')</th>
+                <th>@lang('Description')</th>
+                <th colspan="3">@lang('Action')</th>
             </tr>
         </thead>
         <tbody>

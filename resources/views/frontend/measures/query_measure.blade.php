@@ -8,16 +8,16 @@
             <!-- <div class="row justify-content-center"> -->
             <div class="row" style="margin-top: -20px;">
                 <div class="col-12 col-sm-3 col-md-3">
-                    <label>Tipo Variable: </label>
+                    <label>@lang('Variable Type') </label>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">
                     <label for="datoVaribles" >Variable: </label>
                 </div> 
                 <div class="col-12 col-sm-3 col-md-3">
-                    <label for="fechaDesde" >Fecha Desde: </label>
+                    <label for="fechaDesde" >@lang('Date From'): </label>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">
-                    <label for="fechaHasta" style="margin-left: 44px;">Fecha Hasta: </label>
+                    <label for="fechaHasta" style="margin-left: 44px;">@lang('Date To'): </label>
                 </div>                              
             </div><!--row-->
             <div class="row">
@@ -45,13 +45,13 @@
             <br>
             <div class="row" style="margin-top: -15px;">
                 <div class="col-12 col-sm-3 col-md-3">
-                    <label for="tipoGraficos" >Tipo Gráfico: </label>              
+                    <label for="tipoGraficos" >@lang('type of graph'): </label>              
                 </div>                    
                 <div class="col-12 col-sm-3 col-md-3">
-                    <label for="fechaHasta" >Hora Desde: </label>                    
+                    <label for="fechaHasta" >@lang('Time From'): </label>                    
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">
-                    <label for="fechaHasta" >Hora Hasta: </label>                
+                    <label for="fechaHasta" >@lang('Hour Until'): </label>                
                 </div> 
                 <div class="col-12 col-sm-3 col-md-3">              
                 </div>                                                
@@ -59,8 +59,8 @@
             <div class="row">
                 <div class="col-12 col-sm-3 col-md-3">
                     <select id="charType" name="charType">
-                        <option value="line">Lineas</option>
-                        <option value="bar">Barras</option>
+                        <option value="line">@lang('lines')</option>
+                        <option value="bar">@lang('bars')</option>
                     </select>                
                 </div>                         
                 <div class="col-12 col-sm-3 col-md-3">                  
@@ -77,7 +77,7 @@
                     <div>
                         <button type="button" id="show_measures" class="btn btn-primary" 
                             style="position: relative; margin-left: 43px; margin-top: -27px; width: 72px;" 
-                            onclick="showMeasures()" disabled>Ver Medida
+                            onclick="showMeasures()" disabled>@lang('View measure')
                         </button>                       
                     </div>
                 </div>                           

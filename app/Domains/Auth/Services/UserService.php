@@ -162,6 +162,9 @@ class UserService extends BaseService
                 'type' => $user->isMasterAdmin() ? $this->model::TYPE_ADMIN : $data['type'] ?? $user->type,
                 'name' => $data['name'],
                 'email' => $data['email'],
+                'surname' => $data['surname'],
+                'phone' => $data['phone'],
+                'address' => $data['address']
             ]);
 
             if (! $user->isMasterAdmin()) {
@@ -194,6 +197,7 @@ class UserService extends BaseService
     public function updateProfile(User $user, array $data = []): User
     {
         $user->name = $data['name'] ?? null;
+        
 
         if ($user->canChangeEmail() && $user->email !== $data['email']) {
             $user->email = $data['email'];
@@ -201,6 +205,9 @@ class UserService extends BaseService
             $user->sendEmailVerificationNotification();
             session()->flash('resent', true);
         }
+        $user->surname = $data['surname'] ?? null;
+        $user->phone = $data['phone'] ?? null;
+        $user->address = $data['address'] ?? null;
 
         return tap($user)->save();
     }
@@ -325,6 +332,9 @@ class UserService extends BaseService
         return $this->model::create([
             'type' => $data['type'] ?? $this->model::TYPE_USER,
             'name' => $data['name'] ?? null,
+            'surname' =>  null,
+            'phone' =>  null,
+            'address' =>  null,
             'email' => $data['email'] ?? null,
             'password' => $data['password'] ?? null,
             'provider' => $data['provider'] ?? null,

@@ -20,6 +20,27 @@
             </div>
         </div><!--form-group-->
     @endif
+    <div class="form-group row">
+        <label for="surname" class="col-md-3 col-form-label text-md-right">@lang('Surname')</label>
+
+        <div class="col-md-4">
+            <input type="text" name="surname" class="form-control" placeholder="{{ __('Surname') }}" value="{{ old('surname') ?? $logged_in_user->surname }}"   />
+        </div>
+
+        <label for="phone" class="col-md-1 col-form-label text-md-right">@lang('phone')</label>
+
+        <div class="col-md-4">
+            <input type="number" name="phone" class="form-control" placeholder="{{ __('phone') }}" value="{{ old('phone') ?? $logged_in_user->phone }}"   />
+        </div>
+    </div><!--form-group-->
+
+    <div class="form-group row">
+        <label for="address" class="col-md-3 col-form-label text-md-right">@lang('address')</label>
+
+        <div class="col-md-9">
+            <input type="text" name="address" class="form-control" placeholder="{{ __('address') }}" value="{{ old('address') ?? $logged_in_user->address }}"   />
+        </div>
+    </div><!--form-group-->
 
     <div class="form-group row mb-0">
         <div class="col-md-12 text-right">

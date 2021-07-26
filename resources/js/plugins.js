@@ -58,8 +58,8 @@ $(function () {
         Swal.fire({
             title: 'Are you sure you want to delete this item?',
             showCancelButton: true,
-            confirmButtonText: 'Confirm Delete',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
             icon: 'warning'
         }).then((result) => {
             if (result.value) {

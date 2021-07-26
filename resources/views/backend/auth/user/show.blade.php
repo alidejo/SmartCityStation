@@ -20,14 +20,30 @@
                 </tr>
 
                 <tr>
-                    <th>@lang('Avatar')</th>
-                    <td><img src="{{ $user->avatar }}" class="user-profile-image" /></td>
-                </tr>
-
-                <tr>
                     <th>@lang('Name')</th>
                     <td>{{ $user->name }}</td>
                 </tr>
+
+                @if ($user->surname)
+                <tr>
+                    <th>@lang('Surname')</th>
+                    <td>{{ $user->surname }}</td>
+                </tr>
+                @endif
+
+                @if ($user->phone)
+                <tr>
+                    <th>@lang('phone')</th>
+                    <td>{{ $user->phone }}</td>
+                </tr>
+                @endif
+
+                @if ($user->address)
+                <tr>
+                    <th>@lang('address')</th>
+                    <td>{{ $user->address }}</td>
+                </tr>
+                @endif
 
                 <tr>
                     <th>@lang('E-mail Address')</th>
@@ -40,47 +56,9 @@
                 </tr>
 
                 <tr>
-                    <th>@lang('Verified')</th>
+                    <th>@lang('')</th>
                     <td>@include('backend.auth.user.includes.verified', ['user' => $user])</td>
                 </tr>
-
-                <tr>
-                    <th>@lang('2FA')</th>
-                    <td>@include('backend.auth.user.includes.2fa', ['user' => $user])</td>
-                </tr>
-
-                <tr>
-                    <th>@lang('Timezone')</th>
-                    <td>{{ $user->timezone ?? __('N/A') }}</td>
-                </tr>
-
-                <tr>
-                    <th>@lang('Last Login At')</th>
-                    <td>
-                        @if($user->last_login_at)
-                            @displayDate($user->last_login_at)
-                        @else
-                            @lang('N/A')
-                        @endif
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>@lang('Last Known IP Address')</th>
-                    <td>{{ $user->last_login_ip ?? __('N/A') }}</td>
-                </tr>
-
-                @if ($user->isSocial())
-                    <tr>
-                        <th>@lang('Provider')</th>
-                        <td>{{ $user->provider ?? __('N/A') }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>@lang('Provider ID')</th>
-                        <td>{{ $user->provider_id ?? __('N/A') }}</td>
-                    </tr>
-                @endif
 
                 <tr>
                     <th>@lang('Roles')</th>

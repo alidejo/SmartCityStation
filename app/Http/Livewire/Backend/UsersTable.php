@@ -105,8 +105,7 @@ class UsersTable extends DataTableComponent
                 ->sortable(),
             Column::make(__('Verified'), 'email_verified_at')
                 ->sortable(),
-            Column::make(__('2FA'), 'two_factor_auth_count')
-                ->sortable(),
+           
             Column::make(__('Roles')),
             Column::make(__('Additional Permissions')),
             Column::make(__('Actions')),

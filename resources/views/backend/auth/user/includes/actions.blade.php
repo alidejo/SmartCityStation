@@ -17,7 +17,7 @@
 @else
     @if ($logged_in_user->hasAllAccess())
         <x-utils.view-button :href="route('admin.auth.user.show', $user)" />
-        <x-utils.edit-button :href="route('admin.auth.user.edit', $user)" />
+        {{-- <x-utils.edit-button :href="route('admin.auth.user.edit', $user)" /> --}}
     @endif
 
     @if (! $user->isActive())
@@ -52,7 +52,7 @@
                     permission="admin.access.user.change-password" />
             </div>
         </div>
-    @elseif (
+    {{-- @elseif (
         !$user->isMasterAdmin() && // This is not the master admin
         $user->isActive() && // The account is active
         $user->id !== $logged_in_user->id && // It's not the person logged in
@@ -103,7 +103,7 @@
                     >
                         @lang('Deactivate')
                     </x-utils.form-button>
-                @endif
+                @endif --}}
             </div>
         </div>
     @endif

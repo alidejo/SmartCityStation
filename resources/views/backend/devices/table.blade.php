@@ -2,9 +2,9 @@
     <table class="table" id="devices-table">
         <thead>
             <tr>
-                <th>Device Code</th>
-                <th>State</th>
-                <th colspan="3">Action</th>
+                <th>@lang('Device Code')</th>
+                <th>@lang('State')</th>
+                <th colspan="3">@lang('Action')</th>
             </tr>
         </thead>
         <tbody>

@@ -2,16 +2,16 @@
     <table class="table" id="locationDevices-table">
         <thead>
             <tr>
-                <th>Address</th>
-                <th>Installation Date</th>
-                <th>Installation Hour</th>
-                <th>Remove Date</th>
+                <th>@lang('address')</th>
+                <th>@lang('Installation Date')</th>
+                <th>@lang('Installation Hour')</th>
+                <th>@lang('Remove Date')</th>
                 <!-- <th>Remove Hour</th> -->
-                <th>Latitude</th>
-                <th>Length</th>
-                <th>Device</th>
+                <th>@lang('Latitud')</th>
+                <th>@lang('Length')</th>
+                <th>@lang('Device')</th>
                 <th>Area</th>
-                <th colspan="3">Action</th>
+                <th colspan="3">@lang('Action')</th>
             </tr>
         </thead>
         <tbody>
