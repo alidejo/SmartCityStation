@@ -178,24 +178,6 @@ class MeasureController extends AppBaseController
      * This main function, for get the measures data:
      */
     public function showMeasures(Request $request){
-
-        $jsonMeasures = '[{"codigo_dispositivo": "Dip03", "Id_registro": "LAF", "Fecha_reg": "2020-09-17", "Hora_reg": "14:30:01", "Dato_var1": 34.0},
-        {"codigo_dispositivo": "Dip03", "Id_registro": "LAI", "Fecha_reg": "2020-09-17", "Hora_reg": "14:30:01", "Dato_var1": 31.0},
-        {"codigo_dispositivo": "Dip03", "Id_registro": "LAS", "Fecha_reg": "2020-09-17", "Hora_reg": "14:30:01", "Dato_var1": 33.0},
-        {"codigo_dispositivo": "Dip03", "Id_registro": "LCF", "Fecha_reg": "2020-09-17", "Hora_reg": "14:30:01", "Dato_var1": 37.0},
-        {"codigo_dispositivo": "Dip03", "Id_registro": "LCI", "Fecha_reg": "2020-09-17", "Hora_reg": "14:30:01", "Dato_var1": 34.0},
-        {"codigo_dispositivo": "Dip03", "Id_registro": "LCS", "Fecha_reg": "2020-09-17", "Hora_reg": "14:30:01", "Dato_var1": 36.0}]';
-
-        $objMeasures = json_decode($jsonMeasures);
-
-        $result = "";
-        foreach($objMeasures as $objMeasure){
-            $result = $objMeasure->Id_registro;
-            print_r($result);
-        }
-      
-        die();
-
         $input = $request->all();
         $variable = $input['variable'];
         $startDate = $input['startDate'];
