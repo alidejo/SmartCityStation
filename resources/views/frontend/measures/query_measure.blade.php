@@ -23,12 +23,16 @@
             <div class="row">
                 <div class="col-12 col-sm-3 col-md-3">
                     <div>
-                        <select id="variables_type"></select>
+                        <select id="variables_type">
+                            <option>Seleccionar...</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">
                     <div>
-                        <select id="variables_data"></select>
+                        <select id="variables_data">
+                            <option>Seleccionar...</option>
+                        </select>
                     </div>
                 </div> 
                 <div class="col-12 col-sm-3 col-md-3">

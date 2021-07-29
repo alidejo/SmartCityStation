@@ -22,6 +22,8 @@ class MeasureAPIController extends AppBaseController
     /** @var  MeasureRepository */
     private $measureRepository;
 
+    private $codeDevice;
+
     public function __construct(MeasureRepository $measureRepo)
     {
         $this->measureRepository = $measureRepo;
@@ -55,51 +57,11 @@ class MeasureAPIController extends AppBaseController
      */
     public function store(CreateMeasureAPIRequest $request)
     {
-        // $input = $request->all();
+        $input = $request->all();
 
-        // $measure = $this->measureRepository->create($input);
+        $measure = $this->measureRepository->create($input);
 
-        // return $this->sendResponse($measure->toArray(), 'Measure saved successfully');
-
-        $measures = json_decode($request);
-
-        foreach($measures as $measure){
-            if(($measure->codigo_dispositivo != null) || ($measure->codigo_dispositivo != "")){
-                if(($measure->Id_registro != null) || ($measure->Id_registro != "")){
-                    if(($measure->Fecha_reg != null) || ($measure->Fecha_reg != "")){
-                        if(($measure->Hora_reg != null) || ($measure->Hora_reg != "")){
-                            if(($measure->Dato_var1 != null) || ($measure->Dato_var1 != "")){
-                                $codeDevice = $this->getIdDevice($measure->codigo_dispositivo);
-                                if(isset($codeDevice)){
-                                    $codeVariable = $this->getIdVariable($measure->Id_registro);
-                                    if(isset($codeVariable)){
-                                        if( $this->insertMeasure($codeDevice, $codeVariable, $measure->Fecha_reg, $measure->Hora_reg, $measure->Dato_var1) == 200){
-                                            return $this->sendResponsegetIdDevice(200, 'Ok');                          
-                                        } else {
-                                            return $this->sendResponsegetIdDevice(501, 'Error de Base de Datos');
-                                        }
-                                    } else {
-                                        return $this->sendResponse(501, 'Error: La variable ' . $measure->Id_registro . 'No es valida.');
-                                    }
-                                } else {
-                                    return $this->sendResponse(501, 'Error: El código ' . $measure->codigo_dispositivo . 'No es valido.');
-                                }
-                            } else {
-                                return $this->sendResponse(501, 'Error: No hay dato de la variable. ' . $measure->Id_registro);
-                            }
-                        } else {
-                            return $this->sendResponse(501, 'Error: No hay hora de registor para la variable. ' . $measure->Id_registro);                            
-                        }
-                    } else {
-                        return $this->sendResponse(501, 'Error: No hay fecha de registor para la variable. ' . $measure->Id_registro); 
-                    }
-                } else {
-                    return $this->sendResponse(501, 'Error: No hay variable para el dispositivo. ' . $measure->codigo_dispositivo); 
-                }
-            } else {
-                return $this->sendResponse(501, 'Error: No hay código de dispositivo. ' . $measure->codigo_dispositivo); 
-            }
-        }
+        return $this->sendResponse($measure->toArray(), 'Measure saved successfully');
     }
 
     /**
@@ -171,38 +133,148 @@ class MeasureAPIController extends AppBaseController
         return $this->sendSuccess('Measure deleted successfully');
     }
 
+/**
+ * This function save a json of the measures for minutes.
+ */
+    public function measureRecord(Request $request){ 
+        if($request->isMethod('post')){
+            $result = $this->validateJson($request);
+            if($result == "Ok"){
+                if( $this->insertMeasure($request) == 200) {
+                    return $this->sendResponse(200, 'Ok');                          
+                } else {
+                    return $this->sendResponse(501, 'Error: Al ingresar los datos sobre la Base de Datos');
+                }
+            } else {
+                $reply = substr($result, 0, 3);
+                switch ($reply) {
+                    case '502':
+                        return $this->sendResponse(502, $result);    
+                        break;
+                    case '503':
+                        return $this->sendResponse(503, $result); 
+                        break; 
+                    case '504':
+                        return $this->sendResponse(504, $result); 
+                        break;     
+                    case '505':
+                        return $this->sendResponse(505, $result); 
+                        break;      
+                    case '506':
+                        return $this->sendResponse(506, $result); 
+                        break;                                                                                       
+                    case '507':
+                        return $this->sendResponse(507, $result); 
+                        break;   
+                    case '508':
+                        return $this->sendResponse(508, $result); 
+                        break;                
+                }
+            }
+        }
+    }
+
+    /**
+     * This functión valide the información send in the json.
+     */
+    private function validateJson($Measures){
+        $result = "";
+
+        $measuringData = $Measures->input();
+        foreach($measuringData as $value){
+           if(empty($value['codigo_dispositivo'])){
+                $result = '508 Error: No hay dato en codigo_dispositivo'; 
+                break;
+            } else {
+                if(empty($value['Id_registro'])){
+                    $result = '507 Error: No hay dato en Id_registro. '; 
+                    break;
+                } else {
+                    if(empty($value['Fecha_reg'])){
+                        $result = '506 Error: No hay dato en Fecha_reg. '; 
+                        break;
+                    } else {
+                        if(empty($value['Hora_reg'])){
+                            $result = '505 Error: No hay dato en Hora_reg. ';
+                            break;
+                        } else {
+                            if((double)$value['Dato_var1'] == 0){ 
+                                $result = '504 Error: No hay dato en Dato_var1. ';
+                                break;
+                            } else {
+                                $this->codeDevice = $this->getIdDevice($value['codigo_dispositivo']);
+                                if(isset($this->codeDevice) && ($this->codeDevice > 0)){
+                                    $codeVariable = $this->getIdVariable($value['Id_registro']);
+                                    if(isset($codeVariable) && ( $codeVariable > 0)){
+                                        $result = "Ok";
+                                    } else {
+                                        $result = '502 Error: el Id_registro ' . $value['Id_registro'] . ' No es valida.';
+                                        break;
+                                    }
+                                } else {
+                                    $result = '503 Error: El codigo_dispositivo ' . $value['codigo_dispositivo'] . ' No es valido.';
+                                    break;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }  
+        return $result; 
+    }
+
     /**
      * This function get the id that match with the input parameter.
      */
-    private function getIdDevice($codeDevice){
-        $codDevice = Device::select('id')
-                              ->where('device_code', $codeDevice)
+    private function getIdDevice($codDevice){
+        $devId = 0;
+        $deviceId = Device::select('id')
+                              ->where('device_code', $codDevice)
+                              ->where('state', 1)
                               ->get();
-        return $codDevice;
+
+        if(count($deviceId) > 0 ) {
+            foreach ($deviceId as $codVar) {
+                $devId = $codVar->id;
+            }
+        } 
+        return $devId;
     }
 
     /**
      * This function get the id that match with the input parameter.
      */    
-    private function getIdVariable($codeVariable){
-        $codVariable = DataVariable::select('id')
-                              ->where('name ', $codeVariable)
+    private function getIdVariable($codVariable){
+        $varId = 0;
+        $variableId = DataVariable::select('id')
+                              ->where('name', $codVariable)
                               ->get();
-        return $codVariable;
+
+        if(count($variableId) > 0 ) {
+            foreach ($variableId as $vbleId) {
+                $varId = $vbleId->id;
+            }
+        }
+        return $varId; 
     }    
 
     /**
      * This function insert the measere's data.
      */
-    private function insertMeasure($codeDevice, $codeVariable, $recordDate, $recordHour, $variableData){
+    private function insertMeasure($inRequest){
         try {
-            Measure::insert([
-                'date' => $recordDate,
-                'hour' => $recordHour,
-                'data' => $variableData,
-                'device_id' => $codeDevice,
-                'data_variable_id' => $codeVariable
-            ]); 
+            $measuringData = $inRequest->input();
+            foreach($measuringData as $value){
+                $objMeasure = new Measure();
+                $objMeasure->date = $value['Fecha_reg'];
+                $objMeasure->hour = $value['Hora_reg'];           
+                $objMeasure->data = (double)$value['Dato_var1'];   
+                $objMeasure->device_id = $this->codeDevice; 
+                $objMeasure->data_variable_id = $this->getIdVariable($value['Id_registro']);    
+                $objMeasure->save();                      
+            }
         } catch (\Throwable $th) {
             return 501;
         }

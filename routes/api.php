@@ -55,4 +55,8 @@ Route::group(['prefix' => 'backend'], function () {
 
 Route::group(['prefix' => 'frontend'], function () {
     Route::resource('measures', App\Http\Controllers\API\Frontend\MeasureAPIController::class);
+
+    Route::post('recordmeasures', [App\Http\Controllers\API\Frontend\MeasureAPIController::class, 'measureRecord']);
 });
+
+
