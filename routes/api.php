@@ -45,6 +45,10 @@ Route::group(['prefix' => 'backend'], function () {
 
 Route::group(['prefix' => 'backend'], function () {
     Route::resource('location_devices', App\Http\Controllers\API\Backend\LocationDeviceAPIController::class);
+
+    Route::post('recordlocation', [App\Http\Controllers\API\Backend\LocationDeviceAPIController::class,'locationRecord']);
+
+    Route::put('updateLocation', [App\Http\Controllers\API\Backend\LocationDeviceAPIController::class,'locationUpdate']);
 });
 
 

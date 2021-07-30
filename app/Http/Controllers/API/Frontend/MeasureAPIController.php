@@ -141,6 +141,7 @@ class MeasureAPIController extends AppBaseController
             $result = $this->validateJson($request);
             if($result == "Ok"){
                 if( $this->insertMeasure($request) == 200) {
+                    // aqui hago la llamada a la funcion que envia el correo
                     return $this->sendResponse(200, 'Ok');                          
                 } else {
                     return $this->sendResponse(501, 'Error: Al ingresar los datos sobre la Base de Datos');
@@ -207,6 +208,7 @@ class MeasureAPIController extends AppBaseController
                                     $codeVariable = $this->getIdVariable($value['Id_registro']);
                                     if(isset($codeVariable) && ( $codeVariable > 0)){
                                         $result = "Ok";
+                                        //lookinForAlert
                                     } else {
                                         $result = '502 Error: el Id_registro ' . $value['Id_registro'] . ' No es valida.';
                                         break;
@@ -231,9 +233,9 @@ class MeasureAPIController extends AppBaseController
     private function getIdDevice($codDevice){
         $devId = 0;
         $deviceId = Device::select('id')
-                              ->where('device_code', $codDevice)
-                              ->where('state', 1)
-                              ->get();
+                            ->where('device_code', $codDevice)
+                            ->where('state', 1)
+                            ->get();
 
         if(count($deviceId) > 0 ) {
             foreach ($deviceId as $codVar) {
@@ -249,8 +251,8 @@ class MeasureAPIController extends AppBaseController
     private function getIdVariable($codVariable){
         $varId = 0;
         $variableId = DataVariable::select('id')
-                              ->where('name', $codVariable)
-                              ->get();
+                            ->where('name', $codVariable)
+                            ->get();
 
         if(count($variableId) > 0 ) {
             foreach ($variableId as $vbleId) {
