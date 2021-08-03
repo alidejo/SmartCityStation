@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers\API\Frontend;
 
+use App\Domains\Auth\Models\User;
 use App\Http\Requests\API\Frontend\CreateMeasureAPIRequest;
 use App\Http\Requests\API\Frontend\UpdateMeasureAPIRequest;
 use App\Models\Frontend\Measure;
 use App\Repositories\Frontend\MeasureRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use App\Mail\sendEmail as MailSendEmail;
+use App\Mail\sendEmail2;
+use App\Mail\sendEmailNew;
 use Response;
 use App\Models\Backend\Device;
 use App\Models\Backend\DataVariable;
+use App\Notifications\sendEmail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class MeasureController
@@ -23,6 +30,7 @@ class MeasureAPIController extends AppBaseController
     private $measureRepository;
 
     private $codeDevice;
+    private $measuresAlerts = array(array());
 
     public function __construct(MeasureRepository $measureRepo)
     {
@@ -141,8 +149,12 @@ class MeasureAPIController extends AppBaseController
             $result = $this->validateJson($request);
             if($result == "Ok"){
                 if( $this->insertMeasure($request) == 200) {
-                    // aqui hago la llamada a la funcion que envia el correo
-                    return $this->sendResponse(200, 'Ok');                          
+                //    if there date in the global variable elder a 1 (should be elder 1 for array initial in 0)
+                    if(sizeof($this->measuresAlerts) > 1){
+                        // function send email
+                        $this->userEmail();
+                    }
+                    return $this->sendResponse(200, 'Ok');                      
                 } else {
                     return $this->sendResponse(501, 'Error: Al ingresar los datos sobre la Base de Datos');
                 }
@@ -169,7 +181,7 @@ class MeasureAPIController extends AppBaseController
                         break;   
                     case '508':
                         return $this->sendResponse(508, $result); 
-                        break;                
+                        break;            
                 }
             }
         }
@@ -180,7 +192,7 @@ class MeasureAPIController extends AppBaseController
      */
     private function validateJson($Measures){
         $result = "";
-
+        
         $measuringData = $Measures->input();
         foreach($measuringData as $value){
            if(empty($value['codigo_dispositivo'])){
@@ -208,7 +220,9 @@ class MeasureAPIController extends AppBaseController
                                     $codeVariable = $this->getIdVariable($value['Id_registro']);
                                     if(isset($codeVariable) && ( $codeVariable > 0)){
                                         $result = "Ok";
-                                        //lookinForAlert
+                                        // call function lookinforalert for send the valor by defect of what it brings this json.
+                                        $this->lookinForAlert($value['codigo_dispositivo'],$value['Fecha_reg'],$value['Hora_reg'],$value['Id_registro'],$value['Dato_var1']);
+                                    
                                     } else {
                                         $result = '502 Error: el Id_registro ' . $value['Id_registro'] . ' No es valida.';
                                         break;
@@ -262,6 +276,40 @@ class MeasureAPIController extends AppBaseController
         return $varId; 
     }    
 
+    /**
+     * this function get the alert with respective variables, make push array a global variables , response void this function
+     */
+    private function lookinForAlert($deviceCode, $date, $hour, $variable, $data) : void {
+        $alertVar = 0;
+        $alertVariable = DataVariable::select('alert_threshold')
+                                    ->where('name', $variable)
+                                    ->where('alert_threshold', '<' , $data)
+                                    ->get();
+
+        if(count($alertVariable) > 0 ) {
+            foreach ($alertVariable as $alert) {
+
+                $alertVar = $alert->alert_threshold;
+                $diff = $data - $alertVar;  
+                array_push($this->measuresAlerts, array($deviceCode, $date, $hour,$variable, $data, $alertVar,$diff));
+                
+            }
+        }
+    }
+
+    /**
+     * this function send email towards the mailabler sendEmailNew.php, send global variable 
+     */
+
+    private function userEmail()
+    {
+        $userEmail = User::select('email')
+                        ->where('type','admin')
+                        ->first();
+        
+        Mail::to($userEmail)->send(new sendEmailNew($this->measuresAlerts));
+    }
+    
     /**
      * This function insert the measere's data.
      */
