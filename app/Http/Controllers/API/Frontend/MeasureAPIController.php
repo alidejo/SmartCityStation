@@ -149,7 +149,7 @@ class MeasureAPIController extends AppBaseController
             $result = $this->validateJson($request);
             if($result == "Ok"){
                 if( $this->insertMeasure($request) == 200) {
-                //    if there date in the global variable elder a 1 (should be elder 1 for array initial in 0)
+                //  if the measuresAlerts array has data, a threshold notification must be sent to the administrator.
                     if(sizeof($this->measuresAlerts) > 1){
                         // function send email
                         $this->userEmail();
@@ -220,7 +220,7 @@ class MeasureAPIController extends AppBaseController
                                     $codeVariable = $this->getIdVariable($value['Id_registro']);
                                     if(isset($codeVariable) && ( $codeVariable > 0)){
                                         $result = "Ok";
-                                        // call function lookinforalert for send the valor by defect of what it brings this json.
+                                        // the following function lookinForAlert, looks to see if a data item has exceeded the threshold
                                         $this->lookinForAlert($value['codigo_dispositivo'],$value['Fecha_reg'],$value['Hora_reg'],$value['Id_registro'],$value['Dato_var1']);
                                     
                                     } else {
@@ -291,7 +291,7 @@ class MeasureAPIController extends AppBaseController
 
                 $alertVar = $alert->alert_threshold;
                 $diff = $data - $alertVar;  
-                array_push($this->measuresAlerts, array($deviceCode, $date, $hour,$variable, $data, $alertVar,$diff));
+                array_push($this->measuresAlerts, array($deviceCode, $date, $hour, $variable, $data, $alertVar, $diff));
                 
             }
         }
