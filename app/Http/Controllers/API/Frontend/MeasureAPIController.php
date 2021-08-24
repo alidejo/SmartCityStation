@@ -18,6 +18,8 @@ use App\Models\Backend\DataVariable;
 use App\Notifications\sendEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Carbon;
+use App\Models\Backend\EventLog;
 
 /**
  * Class MeasureController
@@ -156,6 +158,7 @@ class MeasureAPIController extends AppBaseController
                     }
                     return $this->sendResponse(200, 'Ok');                      
                 } else {
+                    $this->insertEventLog('501 Error: Al ingresar los datos sobre la Base de Datos');
                     return $this->sendResponse(501, 'Error: Al ingresar los datos sobre la Base de Datos');
                 }
             } else {
@@ -197,22 +200,27 @@ class MeasureAPIController extends AppBaseController
         foreach($measuringData as $value){
            if(empty($value['codigo_dispositivo'])){
                 $result = '508 Error: No hay dato en codigo_dispositivo'; 
+                $this->insertEventLog($result);
                 break;
             } else {
                 if(empty($value['Id_registro'])){
                     $result = '507 Error: No hay dato en Id_registro. '; 
+                    $this->insertEventLog($result);
                     break;
                 } else {
                     if(empty($value['Fecha_reg'])){
                         $result = '506 Error: No hay dato en Fecha_reg. '; 
+                        $this->insertEventLog($result);
                         break;
                     } else {
                         if(empty($value['Hora_reg'])){
                             $result = '505 Error: No hay dato en Hora_reg. ';
+                            $this->insertEventLog($result);
                             break;
                         } else {
                             if((double)$value['Dato_var1'] == 0){ 
                                 $result = '504 Error: No hay dato en Dato_var1. ';
+                                $this->insertEventLog($result);
                                 break;
                             } else {
                                 $this->codeDevice = $this->getIdDevice($value['codigo_dispositivo']);
@@ -225,10 +233,12 @@ class MeasureAPIController extends AppBaseController
                                     
                                     } else {
                                         $result = '502 Error: el Id_registro ' . $value['Id_registro'] . ' No es valida.';
+                                        $this->insertEventLog($result);
                                         break;
                                     }
                                 } else {
                                     $result = '503 Error: El codigo_dispositivo ' . $value['codigo_dispositivo'] . ' No es valido.';
+                                    $this->insertEventLog($result);
                                     break;
                                 }
                             }
@@ -331,4 +341,24 @@ class MeasureAPIController extends AppBaseController
 
         return 200;
     }
+
+    /**
+     * This function save the event logs
+     */
+    private function insertEventLog($description) : void {
+        try {
+            $dateEvent = Carbon::now()->toDateTimeString(); 
+
+            EventLog::insert([
+                'date_event'=> $dateEvent,
+                'type_event' => "Register Measure",
+                'description' => $description,
+                'created_at' => $dateEvent,
+                'updated_at' => $dateEvent
+            ]); 
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
 }

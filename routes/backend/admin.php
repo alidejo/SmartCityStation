@@ -18,5 +18,4 @@ Route::get('dashboard', [DashboardController::class, 'index'])
     Route::resource('areas', App\Http\Controllers\Backend\AreaController::class);
     Route::resource('locationDevices', App\Http\Controllers\Backend\LocationDeviceController::class);
     Route::resource('variableDevices', App\Http\Controllers\Backend\VariableDeviceController::class);
-    
-    
+    Route::resource('eventLogs', App\Http\Controllers\Backend\EventLogController::class);    

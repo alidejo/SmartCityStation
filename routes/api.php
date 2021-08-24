@@ -64,3 +64,6 @@ Route::group(['prefix' => 'frontend'], function () {
 });
 
 
+Route::group(['prefix' => 'backend'], function () {
+    Route::resource('event_logs', App\Http\Controllers\API\Backend\EventLogAPIController::class);
+});

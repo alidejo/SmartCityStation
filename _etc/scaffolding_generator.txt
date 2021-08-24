@@ -6,6 +6,7 @@ php artisan infyom:api_scaffold Area  --prefix=Backend --factory --seeder --fiel
 php artisan infyom:api_scaffold LocationDevice  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/location_devices.json
 php artisan infyom:api_scaffold VariableDevice  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/variable_devices.json
 php artisan infyom:api_scaffold Measure  --prefix=Frontend --factory --seeder --fieldsFile=./_etc/json_scaffolding/measures.json
+php artisan infyom:api_scaffold EventLog  --prefix=Backend --factory --seeder --fieldsFile=./_etc/json_scaffolding/event_logs.json
 
 
 php artisan infyom:rollback Type_variable api_scaffold
@@ -16,3 +17,4 @@ php artisan infyom:rollback Area api_scaffold
 php artisan infyom:rollback LocationDevice api_scaffold
 php artisan infyom:rollback VariableDevice api_scaffold
 php artisan infyom:rollback Measure api_scaffold
+php artisan infyom:rollback EventLog api_scaffold

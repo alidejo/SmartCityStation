@@ -48,28 +48,36 @@
             </div><!--row--> 
             <br>
             <div class="row" style="margin-top: -15px;">
-                <div class="col-12 col-sm-3 col-md-3">
+                <div class="col-12 col-sm-2 col-md-2">
                     <label for="tipoGraficos" >@lang('type of graph'): </label>              
-                </div>                    
-                <div class="col-12 col-sm-3 col-md-3">
+                </div>      
+                <div class="col-12 col-sm-2 col-md-2">
+                    <label for="color" >@lang('color'): </label>              
+                </div>                                  
+                <div class="col-12 col-sm-3 col-md-3" style="position: relative; margin-left: 50px;">
                     <label for="fechaHasta" >@lang('Time From'): </label>                    
                 </div>
-                <div class="col-12 col-sm-3 col-md-3">
+                <div class="col-12 col-sm-3 col-md-3" style="position: relative; margin-left: -50px;">
                     <label for="fechaHasta" >@lang('Hour Until'): </label>                
                 </div> 
-                <div class="col-12 col-sm-3 col-md-3">              
+                <div class="col-12 col-sm-2 col-md-2">              
                 </div>                                                
-            </div>
+            </div><!--row--> 
             <div class="row">
-                <div class="col-12 col-sm-3 col-md-3">
+                <div class="col-12 col-sm-2 col-md-2">
                     <select id="charType" name="charType">
                         <option value="line">@lang('lines')</option>
                         <option value="bar">@lang('bars')</option>
                     </select>                
-                </div>                         
+                </div> 
+                <div class="col-12 col-sm-2 col-md-2">                  
+                    <div>
+                        <input type="color" class="form-control form-control-color" id="favoriteColor" value="#99000">
+                    </div>
+                </div>
                 <div class="col-12 col-sm-3 col-md-3">                  
                     <div>
-                        <input type="time" id="timeFrom" style="width: 110px;" disabled >
+                        <input type="time" id="timeFrom" style="width: 110px;position: relative;margin-left: 50px;" disabled >
                     </div>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">             
@@ -77,15 +85,15 @@
                         <input type="time" id="timeTo" style="width: 110px;" disabled>                            
                     </div>
                 </div>     
-                <div class="col-12 col-sm-3 col-md-3">             
+                <div class="col-12 col-sm-2 col-md-2">             
                     <div>
                         <button type="button" id="show_measures" class="btn btn-primary" 
-                            style="position: relative; margin-left: 43px; margin-top: -27px; width: 72px;" 
+                            style="position: relative; margin-left: 27px; margin-top: -27px; width: 72px;" 
                             onclick="showMeasures()" disabled>@lang('View measure')
                         </button>                       
                     </div>
                 </div>                           
-            </div>
+            </div><!--row--> 
         </div>
     </div><!--container-->
     <hr>
@@ -374,7 +382,9 @@
 */
     function getMeasures(hours){
         var opcVariable = $("#variables_data option:selected").val();
-        var opcVariableText = $("#variables_data option:selected").text();        
+        var opcVariableText = $("#variables_data option:selected").text(); 
+        
+        var favoriteColor = $("#favoriteColor").val();
 
         var startHour = '00:00';
         var endHour = '00:00';
@@ -438,7 +448,7 @@
                             datasets: [{
                             label: opcVariableText,
                             data: datos,
-                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                            backgroundColor: favoriteColor,
                             strokeColor: "brown",
                             borderWidth: 1
                             }]

@@ -62,3 +62,11 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('admin.eventLogs.index') }}"
+       class="nav-link {{ Request::is('backend/eventLogs*') ? 'active' : '' }}">
+        <p>Event Logs</p>
+    </a>
+</li>
+
+

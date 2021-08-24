@@ -12,6 +12,7 @@ use App\Models\Backend\Area;
 use App\Models\Backend\Device;
 use Illuminate\Support\Facades\DB;
 use Response;
+use App\Models\Backend\EventLog;
 
 
 /**
@@ -101,11 +102,11 @@ class LocationDeviceAPIController extends AppBaseController
                 // se llama a la función insetLocation, quien hara el registro sobre la B. de D.
                 if ($this->insertLocation($request) == 200) {
                     return $this->sendResponse(200, 'Ok');
-                }else {
+                } else {
                     // Si hay error al insertar el registro sobre la B. de D.
                     return $this->sendResponse(501, 'Error: Al ingresar los datos sobre la Base de Datos');
                 }
-            }else {
+            } else {
                 $reply = substr($result, 0, 3);
                 switch ($reply) {
                     case '502':
@@ -156,27 +157,27 @@ class LocationDeviceAPIController extends AppBaseController
                 if (empty($value['Direccion'])) {
                     $result = '509 Error: No hay dato en Direccion. '; 
                     break;
-                }else {
+                } else {
                      // validar si esta vacio el dato Fecha_ins
                     if (empty($value['Fecha_ins'])) {
                         $result = '508 Error: No hay dato en Fecha_ins. '; 
                         break;
-                    }else {
+                    } else {
                          // validar si esta vacio el dato Hora_ins
                         if (empty($value['Hora_ins'])) {
                             $result = '507 Error: No hay dato en Hora_ins. ';
                             break;
-                        }else {
+                        } else {
                             // validar si esta vacio el dato Latitud
                             if ((double)$value['Latitud']== 0) {
                                 $result = '506 Error: No hay dato en Latitud ';
                                 break;
-                            }else {
+                            } else {
                                  // validar si esta vacio el dato Longitud
-                                if ((double)$value['Longitud']==0) {
+                                if ((double)$value['Longitud'] == 0) {
                                     $result = '505 Error: No hay dato en Longitud ';
                                     break;
-                                }else {
+                                } else {
                                     // validar si esta vacio el dato Area
                                     if (empty($value['Area'])) {
                                         $result = '504 Error: No hay dato en Area ';
@@ -193,12 +194,12 @@ class LocationDeviceAPIController extends AppBaseController
                                             if (isset($idArea) && ($idArea > 0)) {
                                                 //resultado si todas las validaciones han sido exitosas
                                                 $result = "Ok";
-                                            }else {
+                                            } else {
                                                 // mensaje de error si en la base de datos no existe esta llave foranea con esos datos
                                                 $result = '502 Error: el Area ' . $value['Area'] . ' No es valida.';
                                                 break;
                                             }
-                                        }else {
+                                        } else {
                                             // mensaje de error si en la base de datos no existe esta llave foranea con esos datos
                                             $result = '503 Error: El codigo_dispositivo ' . $value['codigo_dispositivo'] . ' No es valido.';
                                             break;
@@ -287,7 +288,7 @@ class LocationDeviceAPIController extends AppBaseController
     {
         if ($request->isMethod('put')) {
             // se llama a la función validateJsonRemove, para validar la integridad de los datos.
-            $result =$this->validateJsonRemove($request);
+            $result = $this->validateJsonRemove($request);
             if ($result == "Ok") {
                  // se llama a la función updateLocation, quien realizará la actualización sobre la B. de D.
                 $updateResult = $this->updateLocation($request);
@@ -314,6 +315,7 @@ class LocationDeviceAPIController extends AppBaseController
             }
         }
     }
+
     private function validateJsonRemove($location){
         $result="";
         $locationRules = $location->input();
@@ -338,6 +340,7 @@ class LocationDeviceAPIController extends AppBaseController
         }
         return $result;
     }
+
     // funcion para insertar
     private function updateLocation($inRequest){
         $iddevice= 0;
@@ -369,6 +372,5 @@ class LocationDeviceAPIController extends AppBaseController
         }
         return $result;
     }
-    
-
+  
 }

@@ -172,7 +172,16 @@
                             class="c-sidebar-nav-link"
                             :text="__('Device with Variables')"
                             :active="activeClass(Route::is('admin.variableDevices.index.*'), 'c-active')" />
-                    </li>                                                           
+                    </li>       
+                    
+                    <li class="c-sidebar-nav-item">
+                        <x-utils.link
+                        icon="c-sidebar-nav-icon"
+                            :href="route('admin.eventLogs.index')"
+                            class="c-sidebar-nav-link"
+                            :text="__('Event Logs')"
+                            :active="activeClass(Route::is('admin.eventLogs.index.*'), 'c-active')" />
+                    </li>                     
 
                 </ul>
         </li>
