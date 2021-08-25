@@ -13,6 +13,7 @@ use App\Models\Backend\Device;
 use Illuminate\Support\Facades\DB;
 use Response;
 use App\Models\Backend\EventLog;
+use Illuminate\Support\Carbon;
 
 
 /**
@@ -65,7 +66,7 @@ class LocationDeviceAPIController extends AppBaseController
 
         return $this->sendResponse($locationDevice->toArray(), 'Location Device saved successfully');
     }
-    
+
 
     /**
      * 
@@ -87,7 +88,7 @@ class LocationDeviceAPIController extends AppBaseController
         }
 
         return $this->sendResponse($locationDevice->toArray(), 'Location Device retrieved successfully');
-    }    
+    }
 
 
 
@@ -96,7 +97,7 @@ class LocationDeviceAPIController extends AppBaseController
         // se valida que el parametro sea de tipo post
         if ($request->isMethod('post')) {
             // se llama a la función validateJson, para validar la integridad de los datos.
-            $result =$this->validateJson($request);
+            $result = $this->validateJson($request);
             // si la validacion es correcta
             if ($result == "Ok") {
                 // se llama a la función insetLocation, quien hara el registro sobre la B. de D.
@@ -104,38 +105,39 @@ class LocationDeviceAPIController extends AppBaseController
                     return $this->sendResponse(200, 'Ok');
                 } else {
                     // Si hay error al insertar el registro sobre la B. de D.
+                    $this->insertEventLog("501 Error: Al ingresar los datos sobre la Base de Datos", 1);
                     return $this->sendResponse(501, 'Error: Al ingresar los datos sobre la Base de Datos');
                 }
             } else {
                 $reply = substr($result, 0, 3);
                 switch ($reply) {
                     case '502':
-                        return $this->sendResponse(502, $result);    
+                        return $this->sendResponse(502, $result);
                         break;
                     case '503':
-                        return $this->sendResponse(503, $result); 
-                        break; 
+                        return $this->sendResponse(503, $result);
+                        break;
                     case '504':
-                        return $this->sendResponse(504, $result); 
-                        break;     
+                        return $this->sendResponse(504, $result);
+                        break;
                     case '505':
-                        return $this->sendResponse(505, $result); 
-                        break;      
+                        return $this->sendResponse(505, $result);
+                        break;
                     case '506':
-                        return $this->sendResponse(506, $result); 
-                        break;                                                                                       
+                        return $this->sendResponse(506, $result);
+                        break;
                     case '507':
-                        return $this->sendResponse(507, $result); 
-                        break;   
+                        return $this->sendResponse(507, $result);
+                        break;
                     case '508':
-                        return $this->sendResponse(508, $result); 
-                        break;  
+                        return $this->sendResponse(508, $result);
+                        break;
                     case '509':
-                        return $this->sendResponse(509, $result); 
-                        break;  
+                        return $this->sendResponse(509, $result);
+                        break;
                     case '510':
-                        return $this->sendResponse(510, $result); 
-                        break;                
+                        return $this->sendResponse(510, $result);
+                        break;
                 }
             }
         }
@@ -150,39 +152,46 @@ class LocationDeviceAPIController extends AppBaseController
         foreach ($locatingData as $key => $value) {
             // validar si esta vacio el dato codigo_dispositivo
             if (empty($value['codigo_dispositivo'])) {
-                $result = '510 Error: No hay dato en codigo_dispositivo'; 
+                $result = '510 Error: No hay dato en codigo_dispositivo';
+                $this->insertEventLog($result, 1);
                 break;
             } else {
                 // validar si esta vacio el dato Direccion
                 if (empty($value['Direccion'])) {
-                    $result = '509 Error: No hay dato en Direccion. '; 
+                    $result = '509 Error: No hay dato en Direccion. ';
+                    $this->insertEventLog($result, 1);
                     break;
                 } else {
-                     // validar si esta vacio el dato Fecha_ins
+                    // validar si esta vacio el dato Fecha_ins
                     if (empty($value['Fecha_ins'])) {
-                        $result = '508 Error: No hay dato en Fecha_ins. '; 
+                        $result = '508 Error: No hay dato en Fecha_ins. ';
+                        $this->insertEventLog($result, 1);
                         break;
                     } else {
-                         // validar si esta vacio el dato Hora_ins
+                        // validar si esta vacio el dato Hora_ins
                         if (empty($value['Hora_ins'])) {
                             $result = '507 Error: No hay dato en Hora_ins. ';
+                            $this->insertEventLog($result, 1);
                             break;
                         } else {
                             // validar si esta vacio el dato Latitud
-                            if ((double)$value['Latitud']== 0) {
+                            if ((float)$value['Latitud'] == 0) {
                                 $result = '506 Error: No hay dato en Latitud ';
+                                $this->insertEventLog($result, 1);
                                 break;
                             } else {
-                                 // validar si esta vacio el dato Longitud
-                                if ((double)$value['Longitud'] == 0) {
+                                // validar si esta vacio el dato Longitud
+                                if ((float)$value['Longitud'] == 0) {
                                     $result = '505 Error: No hay dato en Longitud ';
+                                    $this->insertEventLog($result, 1);
                                     break;
                                 } else {
                                     // validar si esta vacio el dato Area
                                     if (empty($value['Area'])) {
                                         $result = '504 Error: No hay dato en Area ';
+                                        $this->insertEventLog($result, 1);
                                         break;
-                                    }else {
+                                    } else {
                                         // se llama a la función getDevice, quien retorna el id del dispositivo,
                                         // el cual es asignado a la variable glogal codeDevie.
                                         $this->codeDevice =  $this->getIdDevice($value['codigo_dispositivo']);
@@ -197,11 +206,13 @@ class LocationDeviceAPIController extends AppBaseController
                                             } else {
                                                 // mensaje de error si en la base de datos no existe esta llave foranea con esos datos
                                                 $result = '502 Error: el Area ' . $value['Area'] . ' No es valida.';
+                                                $this->insertEventLog($result, 1);
                                                 break;
                                             }
                                         } else {
                                             // mensaje de error si en la base de datos no existe esta llave foranea con esos datos
                                             $result = '503 Error: El codigo_dispositivo ' . $value['codigo_dispositivo'] . ' No es valido.';
+                                            $this->insertEventLog($result, 1);
                                             break;
                                         }
                                     }
@@ -216,37 +227,39 @@ class LocationDeviceAPIController extends AppBaseController
     }
 
     // this function get device id
-    private function getIdDevice($codDevice){
+    private function getIdDevice($codDevice)
+    {
         $devId = 0;
         // consulta donde el dispositivo sea igual el nombre y este activo y la fecha de eliminacion sea null
         $deviceId = Device::select('id')
-                            ->where('device_code', $codDevice)
-                            ->where('state', 1)
-                            ->where('deleted_at',null)
-                            ->get();
+            ->where('device_code', $codDevice)
+            ->where('state', 1)
+            ->where('deleted_at', null)
+            ->get();
         // si la colección $deviceId, es mayor a 0, es porque el dispositivo encontrado es valido.
-        if(count($deviceId) > 0 ) {
+        if (count($deviceId) > 0) {
             // ciclo para obtener el id del dispositivo
             foreach ($deviceId as $codVar) {
                 $devId = $codVar->id;
             }
-        } 
+        }
         // devolver el id
         return $devId;
     }
 
-    private function getIdArea($codArea){
+    private function getIdArea($codArea)
+    {
         // variable que recorrera el json
-        $AId = 0; 
-        $areaId= Area::Select('id')
-                        ->where('name',$codArea)
-                        ->where('deleted_at',null)
-                        ->get();
+        $AId = 0;
+        $areaId = Area::Select('id')
+            ->where('name', $codArea)
+            ->where('deleted_at', null)
+            ->get();
         // si la colección $areaId, es mayor a 0, es porque el área encontrada es valido.
         if (count($areaId) > 0) {
             // ciclo para obtener el id del area
             foreach ($areaId as $codeArea) {
-            $AId = $codeArea->id;
+                $AId = $codeArea->id;
             }
         }
         // devolver el id
@@ -254,25 +267,25 @@ class LocationDeviceAPIController extends AppBaseController
     }
 
     // funcion para insertar
-    private function insertLocation($inRequest){
+    private function insertLocation($inRequest)
+    {
         try {
             // asignamos los valores a la varible $locatingData desde $inRequest
             $locatingData = $inRequest->input();
-           foreach ($locatingData as $key => $value) {
-            // hacemos referencia al objeto de la tabla en la cual se insertará
-            $objLocation = new LocationDevice();
+            foreach ($locatingData as $key => $value) {
+                // hacemos referencia al objeto de la tabla en la cual se insertará
+                $objLocation = new LocationDevice();
 
-            $objLocation->address = $value['Direccion'];
-            $objLocation->installation_date = $value['Fecha_ins'];
-            $objLocation->installation_hour = $value['Hora_ins'];
-            $objLocation->latitude = (double)$value['Latitud'];
-            $objLocation->length = (double)$value['Longitud'];
-            $objLocation->device_id = $this->codeDevice;
-            $objLocation->area_id = $this->getIdArea($value['Area']);
+                $objLocation->address = $value['Direccion'];
+                $objLocation->installation_date = $value['Fecha_ins'];
+                $objLocation->installation_hour = $value['Hora_ins'];
+                $objLocation->latitude = (float)$value['Latitud'];
+                $objLocation->length = (float)$value['Longitud'];
+                $objLocation->device_id = $this->codeDevice;
+                $objLocation->area_id = $this->getIdArea($value['Area']);
 
-            $objLocation->save();
-           }
-            
+                $objLocation->save();
+            }
         } catch (\Throwable $th) {
             return 501;
         }
@@ -280,9 +293,9 @@ class LocationDeviceAPIController extends AppBaseController
     }
 
 
-    
-/*------------------------------------------------------------------------------------------------------------*/
-    
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
 
     public function locationUpdate(Request $request)
     {
@@ -290,49 +303,55 @@ class LocationDeviceAPIController extends AppBaseController
             // se llama a la función validateJsonRemove, para validar la integridad de los datos.
             $result = $this->validateJsonRemove($request);
             if ($result == "Ok") {
-                 // se llama a la función updateLocation, quien realizará la actualización sobre la B. de D.
+                // se llama a la función updateLocation, quien realizará la actualización sobre la B. de D.
                 $updateResult = $this->updateLocation($request);
                 if ($updateResult == "200") {
                     return $this->sendResponse(200, 'Ok');
                 } elseif ($updateResult == "512") {
+                    $this->insertEventLog("512 Error: El Dispositivo ya ha sido removido", 2);
                     return  $this->sendResponse(512, 'Error: El Dispositivo ya ha sido removido.');
                 } else {
+                    $this->insertEventLog("501 Error: Al ingresar los datos sobre la Base de Datos", 2);
                     return $this->sendResponse(501, 'Error: Al ingresar los datos sobre la Base de Datos');
                 }
             } else {
                 $reply = substr($result, 0, 3);
                 switch ($reply) {
                     case '503':
-                        return $this->sendResponse(503, $result); 
-                        break; 
+                        return $this->sendResponse(503, $result);
+                        break;
                     case '510':
-                        return $this->sendResponse(510, $result); 
+                        return $this->sendResponse(510, $result);
                         break;
                     case '511':
-                        return $this->sendResponse(511, $result); 
-                        break;                
+                        return $this->sendResponse(511, $result);
+                        break;
                 }
             }
         }
     }
 
-    private function validateJsonRemove($location){
-        $result="";
+    private function validateJsonRemove($location)
+    {
+        $result = "";
         $locationRules = $location->input();
         foreach ($locationRules as  $value) {
             if (empty($value['codigo_dispositivo'])) {
-                $result = '510 Error: No hay dato en codigo_dispositivo'; 
+                $result = '510 Error: No hay dato en codigo_dispositivo';
+                $this->insertEventLog($result, 2);
                 break;
             } else {
                 if (empty($value['Fecha_ret'])) {
-                    $result = '511 Error: No hay dato en Fecha_ret'; 
+                    $result = '511 Error: No hay dato en Fecha_ret';
+                    $this->insertEventLog($result, 2);
                     break;
                 } else {
                     $this->codeDevice =  $this->getIdDevice($value['codigo_dispositivo']);
                     if (isset($this->codeDevice) && ($this->codeDevice > 0)) {
-                        $result="Ok";
+                        $result = "Ok";
                     } else {
                         $result = '503 Error: El codigo_dispositivo ' . $value['codigo_dispositivo'] . ' No es valido.';
+                        $this->insertEventLog($result, 2);
                         break;
                     }
                 }
@@ -342,35 +361,62 @@ class LocationDeviceAPIController extends AppBaseController
     }
 
     // funcion para insertar
-    private function updateLocation($inRequest){
-        $iddevice= 0;
+    private function updateLocation($inRequest)
+    {
+        $iddevice = 0;
         $result = "200";
         try {
             // asignamos los valores a locatingndata de inrequest
             // hacemos referencia a la tabla de insersion
             $objLocation = LocationDevice::select('id')
-                                        ->where('device_id',$this->codeDevice)
-                                        ->whereNull('remove_date')
-                                        ->get();
+                ->where('device_id', $this->codeDevice)
+                ->whereNull('remove_date')
+                ->get();
             if (count($objLocation) > 0) {
                 foreach ($objLocation as $objloc) {
                     $iddevice = $objloc->id;
                 }
-                $removeDate= $inRequest->input();
+                $removeDate = $inRequest->input();
                 foreach ($removeDate as $value) {
-                    $objLocation= LocationDevice::find($iddevice);
+                    $objLocation = LocationDevice::find($iddevice);
                     $objLocation->remove_date = $value['Fecha_ret'];
                     $objLocation->update();
                 }
             } else {
                 $result = "512";
             }
-            
         } catch (\Throwable $th) {
             $result = "501";
             return $result;
         }
         return $result;
     }
-  
+
+    /**
+     * This function save the event logs
+     */
+    private function insertEventLog($description, $eventType): void
+    {
+        try {
+            $dateEvent = Carbon::now()->toDateTimeString();
+
+            $et = "";
+
+            if ($eventType == 1) {
+                $et = "Register Location Device";
+            } else {
+                $et = "Register Remove Device";
+            }
+
+            EventLog::insert([
+                'date_event' => $dateEvent,
+                'type_event' => $et,
+                'description' => $description,
+                'created_at' => $dateEvent,
+                'updated_at' => $dateEvent
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
 }
