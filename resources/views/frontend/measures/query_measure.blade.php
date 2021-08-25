@@ -4,102 +4,85 @@
 
 @section('content')
     <div class="container py-4">
-        <div  style="margin-top: 5px; margin-left: 50px;">
+        <div>
             <!-- <div class="row justify-content-center"> -->
-            <div class="row" style="margin-top: -20px;">
-                <div class="col-12 col-sm-3 col-md-3">
-                    <label>@lang('Variable Type') </label>
-                </div>
-                <div class="col-12 col-sm-3 col-md-3">
-                    <label for="datoVaribles" >Variable: </label>
-                </div> 
-                <div class="col-12 col-sm-3 col-md-3">
-                    <label for="fechaDesde" >@lang('Date From'): </label>
-                </div>
-                <div class="col-12 col-sm-3 col-md-3">
-                    <label for="fechaHasta" style="margin-left: 44px;">@lang('Date To'): </label>
-                </div>                              
-            </div><!--row-->
             <div class="row">
                 <div class="col-12 col-sm-3 col-md-3">
-                    <div>
-                        <select id="variables_type">
+                    <div class="form-group">
+                        <label>@lang('Variable Type'): </label>
+                        <select class="form-control" id="variables_type">
                             <option>Seleccionar...</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">
-                    <div>
-                        <select id="variables_data">
+                    <div class="form-group">
+                        <label for="datoVaribles" >Variable: </label>
+                        <select class="form-control" id="variables_data">
                             <option>Seleccionar...</option>
                         </select>
                     </div>
                 </div> 
                 <div class="col-12 col-sm-3 col-md-3">
-                    <div>
-                        <input type="date" id="dateFrom" name="dateFrom" />
+                    <div class="form-group">
+                        <label for="fechaDesde" >@lang('Date From'): </label>
+                        <input class="form-control" type="date" id="dateFrom" name="dateFrom" />
                     </div>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">
-                    <div>
-                        <input type="date" id="dateTo" name="dateTo" style="margin-left: 44px;">
+                    <div class="form-group">
+                        <label for="fechaHasta">@lang('Date To'): </label>
+                        <input class="form-control" type="date" id="dateTo" name="dateTo">
                     </div>
                 </div>                                
             </div><!--row--> 
             <br>
-            <div class="row" style="margin-top: -15px;">
-                <div class="col-12 col-sm-2 col-md-2">
-                    <label for="tipoGraficos" >@lang('type of graph'): </label>              
-                </div>      
-                <div class="col-12 col-sm-2 col-md-2">
-                    <label for="color" >@lang('color'): </label>              
-                </div>                                  
-                <div class="col-12 col-sm-3 col-md-3" style="position: relative; margin-left: 50px;">
-                    <label for="fechaHasta" >@lang('Time From'): </label>                    
-                </div>
-                <div class="col-12 col-sm-3 col-md-3" style="position: relative; margin-left: -50px;">
-                    <label for="fechaHasta" >@lang('Hour Until'): </label>                
-                </div> 
-                <div class="col-12 col-sm-2 col-md-2">              
-                </div>                                                
-            </div><!--row--> 
+
             <div class="row">
-                <div class="col-12 col-sm-2 col-md-2">
-                    <select id="charType" name="charType">
-                        <option value="line">@lang('lines')</option>
-                        <option value="bar">@lang('bars')</option>
-                    </select>                
+                <div class="col-12 col-sm-3 col-md-3">
+                    <div class="form-group">
+                        <label for="tipoGraficos" >@lang('type of graph'): </label>
+                        <select class="form-control" id="charType" name="charType">
+                            <option value="line">@lang('lines')</option>
+                            <option value="bar">@lang('bars')</option>
+                        </select>     
+                    </div>               
                 </div> 
-                <div class="col-12 col-sm-2 col-md-2">                  
-                    <div>
+                <div class="col-12 col-sm-3 col-md-3">                  
+                    <div class="form-group">
+                        <label for="color" >@lang('color'): </label>
                         <input type="color" class="form-control form-control-color" id="favoriteColor" value="#99000">
                     </div>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">                  
-                    <div>
-                        <input type="time" id="timeFrom" style="width: 110px;position: relative;margin-left: 50px;" disabled >
+                    <div class="form-group">
+                        <label for="fechaHasta" >@lang('Time From'): </label> 
+                        <input class="form-control" type="time" id="timeFrom"  disabled >
                     </div>
                 </div>
                 <div class="col-12 col-sm-3 col-md-3">             
-                    <div>
-                        <input type="time" id="timeTo" style="width: 110px;" disabled>                            
+                    <div class="form-group">
+                        <label for="fechaHasta" >@lang('Hour Until'): </label> 
+                        <input class="form-control" type="time" id="timeTo" disabled>                            
                     </div>
-                </div>     
-                <div class="col-12 col-sm-2 col-md-2">             
-                    <div>
-                        <button type="button" id="show_measures" class="btn btn-primary" 
-                            style="position: relative; margin-left: 27px; margin-top: -27px; width: 72px;" 
+                </div>                       
+            </div><!--row--> 
+            <div class="row"> 
+                <div class="col-12 col-sm-3 col-md-12">             
+                    <div class="form-group">
+                        <label for=""></label>
+                        <button type="button" id="show_measures" class="form-control btn btn-primary" 
                             onclick="showMeasures()" disabled>@lang('View measure')
                         </button>                       
                     </div>
-                </div>                           
-            </div><!--row--> 
+                </div>    
+            </div>
         </div>
     </div><!--container-->
     <hr>
     <div class="container">
-        <div class="col-12 col-sm-12 col-md-12">
-            <div style="width: 900px;height: 355px;" id="chartdiv">
+        <div class="col-12 col-sm-10 col-md-12">
+            <div id="chartdiv">
             </div>  
         </div>                      
     </div>      
@@ -434,7 +417,7 @@
                         })
 
                         // the canvas is created dynamically.
-                        $('#chartdiv').empty().append('<canvas id="measureChart" style="position: relative; margin-left: 80px; height: 350px;"></canvas>');
+                        $('#chartdiv').empty().append('<canvas id="measureChart" style="position: relative; height: 350px;"></canvas>');
                         var measureCanvas = document.getElementById("measureChart").getContext("2d");
 
                         if (barChart){ // if the instance exists, the instance remove.
