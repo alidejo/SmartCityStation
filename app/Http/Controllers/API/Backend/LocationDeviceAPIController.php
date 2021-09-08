@@ -360,14 +360,12 @@ class LocationDeviceAPIController extends AppBaseController
         return $result;
     }
 
-    // funcion para insertar
+    // This function, update the "remove_date" in the table "LocationDevice".
     private function updateLocation($inRequest)
     {
         $iddevice = 0;
         $result = "200";
         try {
-            // asignamos los valores a locatingndata de inrequest
-            // hacemos referencia a la tabla de insersion
             $objLocation = LocationDevice::select('id')
                 ->where('device_id', $this->codeDevice)
                 ->whereNull('remove_date')
