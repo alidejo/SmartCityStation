@@ -90,7 +90,7 @@ class LocationDeviceController extends AppBaseController
             
             $LocationDevice->save();
 
-            Flash::success('Location Device saved successfully.');
+            Flash::success('Ubicacion del Dispositivo Guardado con Exito.');
 
         } catch (\Throwable $th) {
             // throw $th;
@@ -101,7 +101,7 @@ class LocationDeviceController extends AppBaseController
 
         // $locationDevice = $this->locationDeviceRepository->create($input);
 
-        // Flash::success('Location Device saved successfully.');
+        // Flash::success('Location Device Guardado con Exito.');
 
         return redirect(route('admin.locationDevices.index'));
     }
@@ -211,7 +211,7 @@ class LocationDeviceController extends AppBaseController
 
             // $locationDevice = $this->locationDeviceRepository->update($request->all(), $id);
 
-            Flash::success('Location Device updated successfully.');
+            Flash::success('Ubicacion de Dispositivo Actualizado con Exito.');
 
             return redirect(route('admin.locationDevices.index'));
 
@@ -239,7 +239,7 @@ class LocationDeviceController extends AppBaseController
 
         $this->locationDeviceRepository->delete($id);
 
-        Flash::success('Location Device deleted successfully.');
+        Flash::success('Ubicacion de dispositivo Eliminado con Exito.');
 
         return redirect(route('admin.locationDevices.index'));
     }

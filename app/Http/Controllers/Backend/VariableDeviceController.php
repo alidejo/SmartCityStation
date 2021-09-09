@@ -65,7 +65,7 @@ class VariableDeviceController extends AppBaseController
 
         $variableDevice = $this->variableDeviceRepository->create($input);
 
-        Flash::success('Variable Device saved successfully.');
+        Flash::success('Variable del Dispositivo Guardado con Exito.');
 
         return redirect(route('admin.variableDevices.index'));
     }
@@ -134,7 +134,7 @@ class VariableDeviceController extends AppBaseController
 
         $variableDevice = $this->variableDeviceRepository->update($request->all(), $id);
 
-        Flash::success('Variable Device updated successfully.');
+        Flash::success('Variable de Dispositivo Actualizado con Exito.');
 
         return redirect(route('admin.variableDevices.index'));
     }
@@ -160,7 +160,7 @@ class VariableDeviceController extends AppBaseController
 
         $this->variableDeviceRepository->delete($id);
 
-        Flash::success('Variable Device deleted successfully.');
+        Flash::success('Variable de Dispositivo Eliminado con Exito.');
 
         return redirect(route('admin.variableDevices.index'));
     }

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Edit Device</h1>
+                    <h1>Editar Dispositivo</h1>
                 </div>
             </div>
         </div>
@@ -24,13 +24,13 @@
 
                     <!-- Device Code Field -->
                     <div class="form-group col-sm-6">
-                        {!! Form::label('device_code', 'Device Code:') !!}
+                        {!! Form::label('device_code', 'Codigo Dispositivo:') !!}
                         {!! Form::text('device_code', null, ['class' => 'form-control']) !!}
                     </div>
 
                     <!-- State with toggle switch Field -->
                     <div class="form-group col-sm-6">
-                        {!! Form::label('state', 'State:') !!}
+                        {!! Form::label('state', 'Estado:') !!}
                         @if($device->state == 1)
                             {!! Form::checkbox('state', 'active', true,['class' => 'form-control switch-button']) !!}
                         @else
@@ -42,8 +42,8 @@
             </div>
 
             <div class="card-footer">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('admin.devices.index') }}" class="btn btn-default">Cancel</a>
+                {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
+                <a href="{{ route('admin.devices.index') }}" class="btn btn-default">Cancelar</a>
             </div>
 
            {!! Form::close() !!}

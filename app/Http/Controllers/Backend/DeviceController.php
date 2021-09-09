@@ -73,7 +73,7 @@ class DeviceController extends AppBaseController
 
         try {
             $device = $this->deviceRepository->create($input);
-            Flash::success('Device saved successfully.');
+            Flash::success('Dispositivo Guardado con Exito.');
         } catch (\Throwable $th) {
             // throw $th;
             Flash::success('The Device Code already exists.');
@@ -164,7 +164,7 @@ class DeviceController extends AppBaseController
 
             // $device = $this->deviceRepository->update($request->all(), $id);
 
-            Flash::success('Device updated successfully.');
+            Flash::success('Dispositivo Actualizado con Exito.');
         } catch (\Throwable $th) {
             //throw $th;
             Flash::success('The Device Code already exists.');
@@ -194,7 +194,7 @@ class DeviceController extends AppBaseController
 
         $this->deviceRepository->delete($id);
 
-        Flash::success('Device deleted successfully.');
+        Flash::success('Dispositivo Eliminado con Exito.');
 
         return redirect(route('admin.devices.index'));
     }

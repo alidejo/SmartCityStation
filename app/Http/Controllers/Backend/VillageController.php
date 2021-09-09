@@ -58,7 +58,7 @@ class VillageController extends AppBaseController
 
         $village = $this->villageRepository->create($input);
 
-        Flash::success('Village saved successfully.');
+        Flash::success('Municipios Guardado con Exito.');
 
         return redirect(route('admin.villages.index'));
     }
@@ -123,7 +123,7 @@ class VillageController extends AppBaseController
 
         $village = $this->villageRepository->update($request->all(), $id);
 
-        Flash::success('Village updated successfully.');
+        Flash::success('Municipio Actualizado con Exito.');
 
         return redirect(route('admin.villages.index'));
     }
@@ -149,7 +149,7 @@ class VillageController extends AppBaseController
 
         $this->villageRepository->delete($id);
 
-        Flash::success('Village deleted successfully.');
+        Flash::success('Municipio Eliminado con Exito.');
 
         return redirect(route('admin.villages.index'));
     }

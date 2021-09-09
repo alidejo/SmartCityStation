@@ -61,7 +61,7 @@ class AreaController extends AppBaseController
 
         $area = $this->areaRepository->create($input);
 
-        Flash::success('Area saved successfully.');
+        Flash::success('Area Guardado con Exito.');
 
         return redirect(route('admin.areas.index'));
     }
@@ -129,7 +129,7 @@ class AreaController extends AppBaseController
 
         $area = $this->areaRepository->update($request->all(), $id);
 
-        Flash::success('Area updated successfully.');
+        Flash::success('Area Actualizado con Exito.');
 
         return redirect(route('admin.areas.index'));
     }
@@ -155,7 +155,7 @@ class AreaController extends AppBaseController
 
         $this->areaRepository->delete($id);
 
-        Flash::success('Area deleted successfully.');
+        Flash::success('Area Eliminado con Exito.');
 
         return redirect(route('admin.areas.index'));
     }

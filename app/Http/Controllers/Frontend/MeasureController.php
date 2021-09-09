@@ -70,7 +70,7 @@ class MeasureController extends AppBaseController
 
         $measure = $this->measureRepository->create($input);
 
-        Flash::success('Measure saved successfully.');
+        Flash::success('Medidas Guardado con Exito.');
 
         return redirect(route('frontend.measures.index'));
     }
@@ -139,7 +139,7 @@ class MeasureController extends AppBaseController
 
         $measure = $this->measureRepository->update($request->all(), $id);
 
-        Flash::success('Measure updated successfully.');
+        Flash::success('Medidas Actualizado con Exito.');
 
         return redirect(route('frontend.measures.index'));
     }
@@ -165,7 +165,7 @@ class MeasureController extends AppBaseController
 
         $this->measureRepository->delete($id);
 
-        Flash::success('Measure deleted successfully.');
+        Flash::success('Medida Eliminado con Exito.');
 
         return redirect(route('frontend.measures.index'));
     }

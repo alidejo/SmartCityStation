@@ -60,7 +60,7 @@ class Type_variableController extends AppBaseController
 
         try {
             $typeVariable = $this->typeVariableRepository->create($input);
-            Flash::success('Type Variable saved successfully.');
+            Flash::success('Tipo de Variable Creada con exito.');
         } catch (\Throwable $th) {
             //throw $th;
             Flash::success('Error: already a varible type with this name or error to conect with database');
@@ -130,7 +130,7 @@ class Type_variableController extends AppBaseController
         try {
             $typeVariable = $this->typeVariableRepository->update($request->all(), $id);
 
-            Flash::success('Type Variable updated successfully.');
+            Flash::success('Tipo de Variable actualizada con exito.');
         } catch (\Throwable $th) {
             //throw $th;
             Flash::success('Error: already a varible type with this name or error to conect with database');            
@@ -160,7 +160,7 @@ class Type_variableController extends AppBaseController
 
         $this->typeVariableRepository->delete($id);
 
-        Flash::success('Type Variable deleted successfully.');
+        Flash::success('Tipo de Variable Eliminada con exito.');
 
         return redirect(route('admin.typeVariables.index'));
     }

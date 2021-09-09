@@ -1,12 +1,12 @@
 <!-- Address Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('address', 'Address:') !!}
+    {!! Form::label('address', 'Direccion:') !!}
     {!! Form::text('address', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Installation Date Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('installation_date', 'Installation Date:') !!}
+    {!! Form::label('installation_date', 'Dia de la instalacion:') !!}
     @if($desde == "Edit")    
         <p>{{ $locationDevice->installation_date }}</p>  
     @endif           
@@ -15,7 +15,7 @@
 
 <!-- Installation Hour Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('installation_hour', 'Installation Hour:') !!}
+    {!! Form::label('installation_hour', 'Hora de la Instalacion:') !!}
     @if($desde == "Edit")    
         <p>{{ $locationDevice->installation_hour }}</p> 
     @endif       
@@ -25,32 +25,32 @@
 @if($desde == "Edit")
     <!-- Remove Date Field -->
     <div class="form-group col-sm-6">
-        {!! Form::label('remove_date', 'Remove Date:') !!}
+        {!! Form::label('remove_date', 'Dia del Retiro:') !!}
         <p>{{ $locationDevice->remove_date }}</p>            
         {{ Form::date('remove_date', null, ['class' => 'form-control']) }}    
     </div>
     <!-- Remove Hour Field -->
     <!-- <div class="form-group col-sm-6">
-        {!! Form::label('remove_hour', 'Remove Hour:') !!}
+        {!! Form::label('remove_hour', 'Hora del retiro:') !!}
         {!! Form::time('remove_hour', null, ['class' => 'form-control']) !!}
     </div> -->
 @endif
 
 <!-- Latitude Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('latitude', 'Latitude:') !!}
+    {!! Form::label('latitude', 'Latitud:') !!}
     {!! Form::number('latitude', null, ['class' => 'form-control', 'step'=>'any']) !!}
 </div>
 
 <!-- Length Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('length', 'Length:') !!}
+    {!! Form::label('length', 'longitud:') !!}
     {!! Form::number('length', null, ['class' => 'form-control', 'step'=>'any']) !!}
 </div>
 
 <!-- Device Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('device_id', 'Device:') !!}
+    {!! Form::label('device_id', 'Dispositivo:') !!}
     {!! Form::select('device_id', $devices, null, ['class' => 'form-control']) !!}
 </div>
 

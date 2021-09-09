@@ -161,7 +161,7 @@
                         icon="c-sidebar-nav-icon"
                             :href="route('admin.locationDevices.index')"
                             class="c-sidebar-nav-link"
-                            :text="__('Device Location')"
+                            :text="__('Ubicacion del Dispositivo')"
                             :active="activeClass(Route::is('admin.locationDevices.index.*'), 'c-active')" />
                     </li>        
 
@@ -179,7 +179,7 @@
                         icon="c-sidebar-nav-icon"
                             :href="route('admin.eventLogs.index')"
                             class="c-sidebar-nav-link"
-                            :text="__('Event Logs')"
+                            :text="__('Registros de eventos')"
                             :active="activeClass(Route::is('admin.eventLogs.index.*'), 'c-active')" />
                     </li>                     
 

@@ -58,7 +58,7 @@ class EventLogController extends AppBaseController
 
         $eventLog = $this->eventLogRepository->create($input);
 
-        Flash::success('Event Log saved successfully.');
+        Flash::success('Registro de eventos Guardado con Exito.');
 
         return redirect(route('admin.eventLogs.index'));
     }
@@ -123,7 +123,7 @@ class EventLogController extends AppBaseController
 
         $eventLog = $this->eventLogRepository->update($request->all(), $id);
 
-        Flash::success('Event Log updated successfully.');
+        Flash::success('Registro de eventos Actualizado con Exito.');
 
         return redirect(route('admin.eventLogs.index'));
     }
@@ -149,7 +149,7 @@ class EventLogController extends AppBaseController
 
         $this->eventLogRepository->delete($id);
 
-        Flash::success('Event Log deleted successfully.');
+        Flash::success('Registro de eventos Eliminado con Exito.');
 
         return redirect(route('admin.eventLogs.index'));
     }

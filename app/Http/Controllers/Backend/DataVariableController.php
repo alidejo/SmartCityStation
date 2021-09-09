@@ -62,7 +62,7 @@ class DataVariableController extends AppBaseController
 
         try {
             $dataVariable = $this->dataVariableRepository->create($input);
-            Flash::success('Data Variable saved successfully.');
+            Flash::success('Datos de la Variable Guardado con Exito.');
         } catch (\Throwable $th) {
             //throw $th;
             Flash::success('Error: already a varible with this name or error to conect with database');            
@@ -135,7 +135,7 @@ class DataVariableController extends AppBaseController
         try {
             $dataVariable = $this->dataVariableRepository->update($request->all(), $id);
 
-            Flash::success('Data Variable updated successfully.');
+            Flash::success('Datos de Variable Actualizado con Exito.');
         } catch (\Throwable $th) {
             //throw $th;
             Flash::success('Error: already a varible with this name or error to conect with database');             
@@ -165,7 +165,7 @@ class DataVariableController extends AppBaseController
 
         $this->dataVariableRepository->delete($id);
 
-        Flash::success('Data Variable deleted successfully.');
+        Flash::success('Datos de Variable Eliminado con Exito.');
 
         return redirect(route('admin.dataVariables.index'));
     }

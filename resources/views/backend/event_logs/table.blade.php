@@ -2,10 +2,10 @@
     <table class="table" id="eventLogs-table">
         <thead>
             <tr>
-                <th>Date Event</th>
-                <th>Type Event</th>
-                <th>Description</th>
-                <th colspan="3">Action</th>
+                <th>Fecha del Evento</th>
+                <th>Tipo del Evento</th>
+                <th>Descripcion</th>
+                <th colspan="3">Accion</th>
             </tr>
         </thead>
         <tbody>
@@ -23,7 +23,7 @@
                         <!-- <a href="{{ route('admin.eventLogs.edit', [$eventLog->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a> -->
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('¿Estas seguro?')"]) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>
