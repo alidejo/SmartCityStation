@@ -11,6 +11,8 @@ use Flash;
 use Response;
 use App\Models\Backend\Type_variable;
 use App\Models\Backend\DataVariable;
+use App\Models\Backend\VariableDevice;
+use App\Models\Frontend\Measure;
 
 class DataVariableController extends AppBaseController
 {
@@ -65,7 +67,7 @@ class DataVariableController extends AppBaseController
             Flash::success('Datos de la Variable Guardado con Exito.');
         } catch (\Throwable $th) {
             //throw $th;
-            Flash::success('Error: already a varible with this name or error to conect with database');            
+            Flash::success('Error: already a varible with this name or error to conect with database');
         }
 
         return redirect(route('admin.dataVariables.index'));
@@ -110,7 +112,7 @@ class DataVariableController extends AppBaseController
             return redirect(route('admin.dataVariables.index'));
         }
 
-        return view('backend.data_variables.edit')->with(compact('dataVariable','tipyVariables'));
+        return view('backend.data_variables.edit')->with(compact('dataVariable', 'tipyVariables'));
         // return view('backend.data_variables.edit')->with('dataVariable', $dataVariable);
     }
 
@@ -131,14 +133,14 @@ class DataVariableController extends AppBaseController
 
             return redirect(route('admin.dataVariables.index'));
         }
-        
+
         try {
             $dataVariable = $this->dataVariableRepository->update($request->all(), $id);
 
             Flash::success('Datos de Variable Actualizado con Exito.');
         } catch (\Throwable $th) {
             //throw $th;
-            Flash::success('Error: already a varible with this name or error to conect with database');             
+            Flash::success('Error: already a varible with this name or error to conect with database');
         }
 
         return redirect(route('admin.dataVariables.index'));
@@ -163,26 +165,53 @@ class DataVariableController extends AppBaseController
             return redirect(route('admin.dataVariables.index'));
         }
 
-        $this->dataVariableRepository->delete($id);
+        $dataIsInDevicesMeasures = DataVariable::select('data_variables.name', 'variable_devices.device_id', 'measures.data')
+            ->leftJoin('variable_devices', 'data_variables.id', '=', 'variable_devices.data_variable_id')
+            ->leftJoin('measures', 'data_variables.id', '=', 'measures.data_variable_id')
+            ->where('data_variables.id', '=', $id)
+            ->get();
 
-        Flash::success('Datos de Variable Eliminado con Exito.');
+        if (count($dataIsInDevicesMeasures) > 0) {
+            $erase = false;
+            foreach ($dataIsInDevicesMeasures as $dataIsInDevicesMeasure) {
+                if (($dataIsInDevicesMeasure->data != null) or ($dataIsInDevicesMeasure->device_id != null)) {
+                    $erase = true;
+                    break;
+                }
+            }
 
+            if ($erase == true) {
+                Flash::error('The data variable Can´t be deleated, because it has measures or devices associated');
+                return redirect(route('admin.dataVariables.index'));
+            }
+
+            $dataVariable = DataVariable::find($id);
+            $dataVariable->forceDelete();   // physical delete.
+
+            // $this->dataVariableRepository->delete($id);       // Logic delete, this is for softdelete
+
+            Flash::success('data of variable deleted successful');
+            return redirect(route('admin.dataVariables.index'));
+        }
+
+        Flash::error('Data Variable not found');
         return redirect(route('admin.dataVariables.index'));
     }
 
     /**
      *  This méthod, get the variable data tha to be equeal to id of type variable.
      */
-    public function getVariableData(Request $request){
+    public function getVariableData(Request $request)
+    {
         $input = $request->all();
-        $variableTypeId = $input['variableTypeId']; 
+        $variableTypeId = $input['variableTypeId'];
 
         $variableData = DataVariable::select('id', 'name')
-                                      ->where('type_variable_id', $variableTypeId)
-                                      ->get();
+            ->where('type_variable_id', $variableTypeId)
+            ->get();
 
         $variableData_json = $variableData->toJson();  // de Odjeto a JSON.
 
-        return $variableData_json;        
+        return $variableData_json;
     }
 }

@@ -11,6 +11,9 @@ use Flash;
 use Response;
 
 use App\Models\Backend\Type_variable;
+use App\Models\Backend\DataVariable;
+use App\Models\Frontend\Measure;
+use App\Models\Backend\VariableDevice;
 
 class Type_variableController extends AppBaseController
 {
@@ -133,7 +136,7 @@ class Type_variableController extends AppBaseController
             Flash::success('Tipo de Variable actualizada con exito.');
         } catch (\Throwable $th) {
             //throw $th;
-            Flash::success('Error: already a varible type with this name or error to conect with database');            
+            Flash::success('Error: already a varible type with this name or error to conect with database');
         }
 
         return redirect(route('admin.typeVariables.index'));
@@ -158,25 +161,55 @@ class Type_variableController extends AppBaseController
             return redirect(route('admin.typeVariables.index'));
         }
 
-        $this->typeVariableRepository->delete($id);
+        // Before of delete, verify that the variables associateds not have measures or devices.
+        $resultQueriesOne = Type_variable::select('type_variables.id', 'data_variables.name', 'measures.data', 'variable_devices.device_id')
+            ->leftJoin('data_variables', 'type_variables.id', '=', 'data_variables.type_variable_id')
+            ->leftJoin('measures', 'data_variables.id', '=', 'measures.data_variable_id')
+            ->leftJoin('variable_devices', 'data_variables.id', '=', 'variable_devices.data_variable_id')
+            ->where('type_variables.id', '=', $id)
+            ->get();
 
-        Flash::success('Tipo de Variable Eliminada con exito.');
+        if (count($resultQueriesOne) > 0) {
+            $erase = false;
+            foreach ($resultQueriesOne as $resultQuerie) {
+                if (($resultQuerie->data != null) or ($resultQuerie->device_id != null)) {
+                    $erase = true;
+                    break;
+                }
+            }
 
+            if ($erase == true) {
+                Flash::error('The tipe variable Can´t be deleated, because it has measures or devices associated');
+                return redirect(route('admin.typeVariables.index'));
+            }
+
+            DataVariable::where('type_variable_id', $id)->forceDelete();      // physical delete.
+
+            $type_variable = Type_variable::find($id);
+            $type_variable->forceDelete();   // physical delete.
+
+            Flash::success('Type Variable deleted successful');
+            return redirect(route('admin.typeVariables.index'));
+        }
+
+        // $this->typeVariableRepository->delete($id);    // Logic delete, this is for softdelete
+
+        Flash::success('Type Variable not found');
         return redirect(route('admin.typeVariables.index'));
     }
 
     /**
      * This méthod, get the id and name of talbe Tipo_variable.
      */
-    public function getVariableType(){
+    public function getVariableType()
+    {
         $variablesType = Type_variable::select('id', 'name')
-                                        ->orderBy('id')
-                                        ->get();
+            ->orderBy('id')
+            ->get();
 
         // $tipoVaribles_json = json_encode($variablesType);  // de Odjeto a JSON.
         $variablesType_json = $variablesType->toJson();  // de Odjeto a JSON.
 
         return $variablesType_json;
     }
-
 }

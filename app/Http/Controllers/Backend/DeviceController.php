@@ -9,7 +9,11 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
-use App\DTO\Device;
+// use App\DTO\Device;
+use App\Models\Frontend\Measure;
+use App\Models\Backend\VariableDevice;
+use App\Models\Backend\Device;
+use App\Models\Backend\LocationDevice;
 
 class DeviceController extends AppBaseController
 {
@@ -57,10 +61,10 @@ class DeviceController extends AppBaseController
     {
 
         $state = 0;
-        if($request->state == "active"){
+        if ($request->state == "active") {
             $state = 1;
         } else {
-            $state= 2;            
+            $state = 2;
         }
 
         $input = [
@@ -141,10 +145,10 @@ class DeviceController extends AppBaseController
         }
 
         $state = 0;
-        if($request->state == "active"){
+        if ($request->state == "active") {
             $state = 1;
         } else {
-            $state= 2;            
+            $state = 2;
         }
 
         $input = [
@@ -158,7 +162,7 @@ class DeviceController extends AppBaseController
             $device->device_code = $input['device_code'];
             $device->state = $input['state'];
             $device->created_at = $input['created_at'];
-            $device->created_at = $input['updated_at'];        
+            $device->created_at = $input['updated_at'];
 
             $device->save();
 
@@ -192,9 +196,34 @@ class DeviceController extends AppBaseController
             return redirect(route('admin.devices.index'));
         }
 
-        $this->deviceRepository->delete($id);
+        // Before start with delete, is necesary verify is the device has send measures.
+        $measures = Measure::where('device_id', $id)->first();
 
-        Flash::success('Dispositivo Eliminado con Exito.');
+        if (!empty($measures)) {
+            Flash::error('The device Can´t to be delete, because it has measures');
+
+            return redirect(route('admin.devices.index'));
+        }
+
+        // Now is necesary delete the variables associates with device.
+        $variablesDevice = VariableDevice::where('device_id', $id)->first();
+        if (!empty($variablesDevice)) {
+            VariableDevice::where('device_id', $id)->forceDelete();    // physical delete.
+        }
+
+        // Now is necesary delete location device associates with device.
+        $locationDevice = LocationDevice::where('device_id', $id)->first();
+        if (!empty($locationDevice)) {
+            LocationDevice::where('device_id', $id)->forceDelete();    // physical delete.
+        }
+
+        $device = Device::find($id);
+        $device->forceDelete();   // physical delete.
+
+        // $device->delete();  // Logic delete, this is for softdelete
+        // $this->deviceRepository->delete($id);  // Logic delete, this is for softdelete
+
+        Flash::success('Device deleted successful');
 
         return redirect(route('admin.devices.index'));
     }

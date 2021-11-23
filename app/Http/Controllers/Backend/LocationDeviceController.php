@@ -86,12 +86,11 @@ class LocationDeviceController extends AppBaseController
             $LocationDevice->device_id =  $request->device_id;
             $LocationDevice->area_id =  $request->area_id;
             $LocationDevice->created_at =  $request->created_at;
-            $LocationDevice->updated_at =  $request->updated_at;    
-            
+            $LocationDevice->updated_at =  $request->updated_at;
+
             $LocationDevice->save();
 
             Flash::success('Ubicacion del Dispositivo Guardado con Exito.');
-
         } catch (\Throwable $th) {
             // throw $th;
             Flash::success('Error to save Location Device');
@@ -136,7 +135,7 @@ class LocationDeviceController extends AppBaseController
     public function edit($id)
     {
         $devices = Device::pluck('device_code', 'id');
-        $areas = Area::pluck('name', 'id');    
+        $areas = Area::pluck('name', 'id');
         $desde = "Edit";
 
         $locationDevice = $this->locationDeviceRepository->find($id);
@@ -150,7 +149,7 @@ class LocationDeviceController extends AppBaseController
 
         session(['removeDate' => $locationDevice->remove_date]);  // Set, Session Variable
 
-        return view('backend.location_devices.edit')->with(compact('locationDevice', 'devices', 'areas', 'desde'));        
+        return view('backend.location_devices.edit')->with(compact('locationDevice', 'devices', 'areas', 'desde'));
         // return view('backend.location_devices.edit')->with('locationDevice', $locationDevice);
     }
 
@@ -172,7 +171,7 @@ class LocationDeviceController extends AppBaseController
 
 
         /* Before of continue, the dates are validate */
-        if(! $this->validate_dates($request->installation_date , $request->remove_date)){
+        if (!$this->validate_dates($request->installation_date, $request->remove_date)) {
 
             Flash::error('The removing date is less than or equal to the installing date');
 
@@ -189,17 +188,17 @@ class LocationDeviceController extends AppBaseController
                 return redirect(route('admin.locationDevices.index'));
             }
 
-            $locationDevice->address =  $request->address;      
+            $locationDevice->address =  $request->address;
             $locationDevice->installation_date =  $request->installation_date;
             $locationDevice->installation_hour =  $request->installation_hour;
-            
-            
-            if($request->remove_date == null){
+
+
+            if ($request->remove_date == null) {
                 $locationDevice->remove_date =  session('removeDate');  // Get, Session Variable)
             } else {
-                $locationDevice->remove_date =  $request->remove_date;           
+                $locationDevice->remove_date =  $request->remove_date;
             }
-            $locationDevice->remove_hour = null; 
+            $locationDevice->remove_hour = null;
             $locationDevice->latitude =  $request->latitude;
             $locationDevice->length =  $request->length;
             $locationDevice->device_id =  $request->device_id;
@@ -214,7 +213,6 @@ class LocationDeviceController extends AppBaseController
             Flash::success('Ubicacion de Dispositivo Actualizado con Exito.');
 
             return redirect(route('admin.locationDevices.index'));
-
         }
     }
 
@@ -237,10 +235,38 @@ class LocationDeviceController extends AppBaseController
             return redirect(route('admin.locationDevices.index'));
         }
 
-        $this->locationDeviceRepository->delete($id);
+        // Before of delete, verify that the the device with location not have measures.
+        $locationDeviceHasMeasures = Device::select('location_devices.id', 'location_devices.address', 'devices.device_code', 'measures.data')
+            ->join('location_devices', 'devices.id', '=', 'location_devices.device_id')
+            ->leftJoin('measures', 'devices.id', '=', 'measures.device_id')
+            ->where('location_devices.id', '=', $id)
+            ->get();
 
-        Flash::success('Ubicacion de dispositivo Eliminado con Exito.');
+        if (count($locationDeviceHasMeasures) > 0) {
+            $erase = false;
+            foreach ($locationDeviceHasMeasures as $locationDeviceHasMeasure) {
+                if ($locationDeviceHasMeasure->data != null) {
+                    $erase = true;
+                    break;
+                }
+            }
 
+            if ($erase == true) {
+                Flash::error('The location Can´t be deleated, because the device has measures associated');
+                return redirect(route('admin.locationDevices.index'));
+            }
+
+            $type_variable = LocationDevice::find($id);
+            $type_variable->forceDelete();   // physical delete.
+
+            // $this->locationDeviceRepository->delete($id);    // Logic delete, this is for softdelete
+
+            Flash::success('Location Device deleted successful');
+
+            return redirect(route('admin.locationDevices.index'));
+        }
+
+        Flash::error('Location Device not found');
         return redirect(route('admin.locationDevices.index'));
     }
 
@@ -248,7 +274,8 @@ class LocationDeviceController extends AppBaseController
     /*
         This function validate that, the removing date is greater than the installing date.
     */
-    private function validate_dates($dateInstall , $dateRemove){
+    private function validate_dates($dateInstall, $dateRemove)
+    {
 
         $diffDate = true;
 
@@ -262,17 +289,16 @@ class LocationDeviceController extends AppBaseController
         $month2 = date('m', $ts2);
 
         $day1 = date('d', $ts1);
-        $day2 = date('d', $ts2);      
-        
-        if($year2 < $year1){
+        $day2 = date('d', $ts2);
+
+        if ($year2 < $year1) {
             $diffDate = false;
-        } elseif($month2 < $month1){
+        } elseif ($month2 < $month1) {
             $diffDate = false;
-        } elseif($day2 <= $day1){
+        } elseif ($day2 <= $day1) {
             $diffDate = false;
         }
 
         return $diffDate;
     }
-
 }
