@@ -12,6 +12,7 @@ use Response;
 
 use App\Models\Backend\Device;
 use App\Models\Backend\DataVariable;
+use App\Models\Backend\VariableDevice;
 
 class VariableDeviceController extends AppBaseController
 {
@@ -48,7 +49,7 @@ class VariableDeviceController extends AppBaseController
         $devicies = Device::pluck('device_code', 'id');
         $variables = DataVariable::pluck('name', 'id');
 
-        return view('backend.variable_devices.create')->with(compact('devicies', 'variables'));        
+        return view('backend.variable_devices.create')->with(compact('devicies', 'variables'));
         // return view('backend.variable_devices.create');
     }
 
@@ -110,7 +111,7 @@ class VariableDeviceController extends AppBaseController
             return redirect(route('admin.variableDevices.index'));
         }
 
-        return view('backend.variable_devices.edit')->with(compact('variableDevice', 'devicies', 'variables'));          
+        return view('backend.variable_devices.edit')->with(compact('variableDevice', 'devicies', 'variables'));
         // return view('backend.variable_devices.edit')->with('variableDevice', $variableDevice);
     }
 
@@ -158,7 +159,10 @@ class VariableDeviceController extends AppBaseController
             return redirect(route('admin.variableDevices.index'));
         }
 
-        $this->variableDeviceRepository->delete($id);
+        $variableDevice = VariableDevice::find($id);
+        $variableDevice->forceDelete();   // physical delete.
+
+        // $this->variableDeviceRepository->delete($id);   // Logic delete, this is for softdelete
 
         Flash::success('Variable de Dispositivo Eliminado con Exito.');
 

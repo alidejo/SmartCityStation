@@ -197,23 +197,37 @@ class DeviceController extends AppBaseController
         }
 
         // Before start with delete, is necesary verify is the device has send measures.
-        $measures = Measure::where('device_id', $id)->first();
+        try {
+            $measures = Measure::where('device_id', $id)->first();
+        } catch (\Throwable $th) {
+            $measures = "";
+        }
 
-        if (!empty($measures)) {
+        if (!empty($measures) || $measures != "") {
             Flash::error('The device Can´t to be delete, because it has measures');
 
             return redirect(route('admin.devices.index'));
         }
 
         // Now is necesary delete the variables associates with device.
-        $variablesDevice = VariableDevice::where('device_id', $id)->first();
-        if (!empty($variablesDevice)) {
+        try {
+            $variablesDevice = VariableDevice::where('device_id', $id)->first();
+        } catch (\Throwable $th) {
+            $variablesDevice = "";
+        }
+
+        if (!empty($variablesDevice) || $variablesDevice != "") {
             VariableDevice::where('device_id', $id)->forceDelete();    // physical delete.
         }
 
         // Now is necesary delete location device associates with device.
-        $locationDevice = LocationDevice::where('device_id', $id)->first();
-        if (!empty($locationDevice)) {
+        try {
+            $locationDevice = LocationDevice::where('device_id', $id)->first();
+        } catch (\Throwable $th) {
+            $locationDevice = "";
+        }
+
+        if (!empty($locationDevice) || $locationDevice != "") {
             LocationDevice::where('device_id', $id)->forceDelete();    // physical delete.
         }
 

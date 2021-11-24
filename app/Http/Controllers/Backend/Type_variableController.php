@@ -183,7 +183,13 @@ class Type_variableController extends AppBaseController
                 return redirect(route('admin.typeVariables.index'));
             }
 
-            DataVariable::where('type_variable_id', $id)->forceDelete();      // physical delete.
+            $hasVaribles = DataVariable::select('id')
+                ->where('type_variable_id', $id)
+                ->get();
+
+            if (count($hasVaribles) > 0) {
+                DataVariable::where('type_variable_id', $id)->forceDelete();      // physical delete.
+            }
 
             $type_variable = Type_variable::find($id);
             $type_variable->forceDelete();   // physical delete.
