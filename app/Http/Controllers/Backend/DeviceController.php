@@ -204,7 +204,7 @@ class DeviceController extends AppBaseController
         }
 
         if (!empty($measures) || $measures != "") {
-            Flash::error('The device Can´t to be delete, because it has measures');
+            Flash::error(__('The device Can´t to be delete, because it has measures'));
 
             return redirect(route('admin.devices.index'));
         }

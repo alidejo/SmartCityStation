@@ -252,7 +252,7 @@ class LocationDeviceController extends AppBaseController
             }
 
             if ($erase == true) {
-                Flash::error('The location Can´t be deleated, because the device has measures associated');
+                Flash::error(__('The location Can´t be deleated, because the device has measures associated'));
                 return redirect(route('admin.locationDevices.index'));
             }
 

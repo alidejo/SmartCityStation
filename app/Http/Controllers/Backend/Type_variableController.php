@@ -179,7 +179,7 @@ class Type_variableController extends AppBaseController
             }
 
             if ($erase == true) {
-                Flash::error('The tipe variable Can´t be deleated, because it has measures or devices associated');
+                Flash::error(__('The tipe variable Can´t be deleated, because it has measures or devices associated'));
                 return redirect(route('admin.typeVariables.index'));
             }
 

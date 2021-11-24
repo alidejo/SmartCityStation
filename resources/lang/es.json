@@ -225,6 +225,8 @@
     "lines": "Lineas",
     "Bars": "Barras",
     "Create Type Variable": "Crear  Tipo de Variable",
+    "Events log": "Registros de eventos",
+    "Location Device": "Ubicacion del Dispositivo",
     "Device not found": "No se encontró el dispositivo",
     "The device Can´t to be delete, because it has measures": "El dispositivo No puede ser eliminado, porque hay medidas asociadas a este",
     "Device deleted successful": "Dispositivo eliminado con exito",

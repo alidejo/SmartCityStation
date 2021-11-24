@@ -181,7 +181,7 @@ class DataVariableController extends AppBaseController
             }
 
             if ($erase == true) {
-                Flash::error('The data variable Can´t be deleated, because it has measures or devices associated');
+                Flash::error(__('The data variable Can´t be deleated, because it has measures or devices associated'));
                 return redirect(route('admin.dataVariables.index'));
             }
 
